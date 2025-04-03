@@ -1,0 +1,13 @@
+2025-04-03 12:21:37.814581+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Error de Sintaxis en sentencia SQL "CREATE TABLE IF NOT EXISTS Car (id INT PRIMARY KEY,number_of_doors INT,license_plate VARCHAR(50) UNIQUE NOT NULL, brand VARCHAR(50),model VARCHAR(50), [*]year INT,fuel_type VARCHAR(50), vehicle_id INT,FOREIGN KEY (vehicle_id) REFERENCES Vehicle(id))"; se esperaba "identifier"
+Syntax error in SQL statement "CREATE TABLE IF NOT EXISTS Car (id INT PRIMARY KEY,number_of_doors INT,license_plate VARCHAR(50) UNIQUE NOT NULL, brand VARCHAR(50),model VARCHAR(50), [*]year INT,fuel_type VARCHAR(50), vehicle_id INT,FOREIGN KEY (vehicle_id) REFERENCES Vehicle(id))"; expected "identifier"; SQL statement:
+CREATE TABLE IF NOT EXISTS Car (id INT PRIMARY KEY,number_of_doors INT,license_plate VARCHAR(50) UNIQUE NOT NULL, brand VARCHAR(50),model VARCHAR(50), year INT,fuel_type VARCHAR(50), vehicle_id INT,FOREIGN KEY (vehicle_id) REFERENCES Vehicle(id)) [42001-232]
+2025-04-03 12:24:37.944201+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLNonTransientException: No hay datos disponibles.
+No data is available [2000-232]
+2025-04-03 12:26:45.069737+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Error de Sintaxis en sentencia SQL "    INSERT INTO Motorcycle (id, engine_displacement, license_plate, brand, model, [*]year, fuel_type)\000a    VALUES (1, 600, 'TESTMOTO1', 'Honda', 'CBR', 2019, 'GASOLINE')\000a"; se esperaba "identifier"
+Syntax error in SQL statement "    INSERT INTO Motorcycle (id, engine_displacement, license_plate, brand, model, [*]year, fuel_type)\000a    VALUES (1, 600, 'TESTMOTO1', 'Honda', 'CBR', 2019, 'GASOLINE')\000a"; expected "identifier"; SQL statement:
+    INSERT INTO Motorcycle (id, engine_displacement, license_plate, brand, model, year, fuel_type)
+    VALUES (1, 600, 'TESTMOTO1', 'Honda', 'CBR', 2019, 'GASOLINE')
+ [42001-232]
