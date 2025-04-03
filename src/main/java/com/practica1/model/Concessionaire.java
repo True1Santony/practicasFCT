@@ -3,6 +3,9 @@ package com.practica1.model;
 import java.util.*;
 
 public class Concessionaire {
+
+    private int id;
+    private String name;
     private List<Vehicle> vehicles;
     private Map<String,Vehicle> vehiclesByLicensePlate;
     private Set<String> uniqueVehicleBrands;
@@ -11,6 +14,9 @@ public class Concessionaire {
         this.vehicles = new ArrayList<>();
         this.vehiclesByLicensePlate = new HashMap<>();
         this.uniqueVehicleBrands = new HashSet<>();
+    }
+    public Concessionaire(String name){
+        this.name = name;
     }
 
     public List<Vehicle> getVehicles() {
@@ -35,5 +41,21 @@ public class Concessionaire {
 
     public void setUniqueVehicleBrands(Set<String> uniqueVehicleBrands) {
         this.uniqueVehicleBrands = uniqueVehicleBrands;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

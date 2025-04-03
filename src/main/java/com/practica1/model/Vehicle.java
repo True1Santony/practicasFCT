@@ -3,6 +3,7 @@ package com.practica1.model;
 import com.practica1.model.common.FuelType;
 
 public abstract class Vehicle {
+    private int id;
     private String brand;
     private String model;
     private int year;
@@ -15,6 +16,18 @@ public abstract class Vehicle {
         this.year = year;
         this.fuelType = fuelType;
         this.licensePlate = licensePlate;
+    }
+
+    public Vehicle() {
+
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public void accelerate() {

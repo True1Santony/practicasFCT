@@ -4,11 +4,17 @@ import com.practica1.model.common.FuelType;
 
 public class Car extends Vehicle{
 
+    private int id;
+    private int vehicleId;
     private int numberOfDoors;
 
     public Car(String brand, String model, int year, FuelType fuelType, String licensePlate, int numbrerOfDoors) {
         super(brand, model, year, fuelType,licensePlate);
         this.numberOfDoors = numbrerOfDoors;
+    }
+
+    public Car() {
+        super();
     }
 
     @Override
@@ -24,11 +30,29 @@ public class Car extends Vehicle{
         System.out.println("-------------------------------");
     }
 
+    @Override
+    public int getId() {
+        return id;
+    }
+
+    public void setVehicleId(int vehicleId) {
+        this.vehicleId = vehicleId;
+    }
+
+    @Override
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public int getNumberOfDoors() {
         return numberOfDoors;
     }
 
     public void setNumberOfDoors(int numberOfDoors) {
         this.numberOfDoors = numberOfDoors;
+    }
+
+    public int getVehicleId() {
+        return vehicleId;
     }
 }

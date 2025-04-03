@@ -4,7 +4,8 @@ import com.practica1.model.common.FuelType;
 
 public class Motorcycle extends Vehicle{
 
-    private int engineDisplacement;  // Cilindrada del motor
+    private int id;
+    private int engineDisplacement;// Cilindrada del motor
 
     public Motorcycle(String brand, String model, int year, FuelType fuelType, String licensePlate, int engineDisplacement) {
         super(brand, model, year, fuelType, licensePlate);
@@ -22,6 +23,16 @@ public class Motorcycle extends Vehicle{
         System.out.println("Fuel Type: " + getFuelType());
         System.out.println("Engine Displacement: " + engineDisplacement + " cc");
         System.out.println("-------------------------------");
+    }
+
+    @Override
+    public int getId() {
+        return id;
+    }
+
+    @Override
+    public void setId(int id) {
+        this.id = id;
     }
 
     public int getEngineDisplacement() {

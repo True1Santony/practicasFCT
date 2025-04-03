@@ -1,35 +1,41 @@
 package com.practica1.DAO;
 
-import java.sql.*;
-import java.util.Optional;
+import com.practica1.model.Concessionaire;
 
-public class VehicleDAO {
+import java.sql.*;
+
+public class ConcessionaireDAO {
 
     private static final String URL = "jdbc:h2:file:./concesionario_db";
     private static final String USER = "sa";
     private static final String PASSWORD = "";
 
-    public int create(String vehicleType) {
-        String query = "INSERT INTO Vehicle (vehicle_type) VALUES (?)";
+    // Método para crear un concesionario
+    public int create(Concessionaire concessionaire) {
+        String query = "INSERT INTO Concessionaire (name) VALUES (?)";
         try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
              PreparedStatement stmt = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
-            stmt.setString(1, vehicleType);
+
+            stmt.setString(1, concessionaire.getName());
+
             stmt.executeUpdate();
 
-            // Obtener el ID generado para el vehículo
+            // Obtener el id autogenerado
             try (ResultSet generatedKeys = stmt.getGeneratedKeys()) {
                 if (generatedKeys.next()) {
-                    return generatedKeys.getInt(1); // Retornamos el ID del vehículo insertado
+                    concessionaire.setId(generatedKeys.getInt(1)); //ID generado al objeto Concessionaire
+                    return concessionaire.getId();
                 }
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return -1;
+        return -1; // Si ocurrió un error, retornar -1
     }
 
-    public Optional<String> findById(int id) {
-        String query = "SELECT vehicle_type FROM Vehicle WHERE id = ?";
+    // Método para encontrar un concesionario por su ID
+    public Concessionaire findById(int id) {
+        String query = "SELECT * FROM Concessionaire WHERE id = ?";
         try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
              PreparedStatement stmt = connection.prepareStatement(query)) {
 
@@ -37,41 +43,42 @@ public class VehicleDAO {
             ResultSet resultSet = stmt.executeQuery();
 
             if (resultSet.next()) {
-                String vehicleType = resultSet.getString("vehicle_type");
-                return Optional.of(vehicleType); // Retorna el tipo de vehículo
+                Concessionaire concessionaire = new Concessionaire();
+                concessionaire.setId(resultSet.getInt("id"));
+                concessionaire.setName(resultSet.getString("name"));
+                return concessionaire;
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return Optional.empty(); // Si no se encuentra el vehículo, retornamos un Optional vacío
+        return null; // Si no se encuentra el concesionario, retornar null
     }
 
-    public void update(int id, String vehicleType) {
-        String query = "UPDATE Vehicle SET vehicle_type = ? WHERE id = ?";
+    // Método para actualizar un concesionario
+    public void update(Concessionaire concessionaire) {
+        String query = "UPDATE Concessionaire SET name = ? WHERE id = ?";
 
         try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
              PreparedStatement stmt = connection.prepareStatement(query)) {
 
-            // Establecemos el valor para el campo vehicle_type y el id del vehículo
-            stmt.setString(1, vehicleType);
-            stmt.setInt(2, id);
+            stmt.setString(1, concessionaire.getName());
+            stmt.setInt(2, concessionaire.getId());
 
-            // Ejecutamos la consulta de actualización
             int rowsUpdated = stmt.executeUpdate();
 
             if (rowsUpdated > 0) {
-                System.out.println("Vehicle updated successfully.");
+                System.out.println("Concessionaire updated successfully.");
             } else {
-                System.out.println("Vehicle with id " + id + " not found.");
+                System.out.println("Concessionaire with id " + concessionaire.getId() + " not found.");
             }
-
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
+    // Método para eliminar un concesionario por su ID
     public void deleteById(int id) {
-        String query = "DELETE FROM Vehicle WHERE id = ?";
+        String query = "DELETE FROM Concessionaire WHERE id = ?";
 
         try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
              PreparedStatement stmt = connection.prepareStatement(query)) {
@@ -80,14 +87,12 @@ public class VehicleDAO {
             int rowsDeleted = stmt.executeUpdate();
 
             if (rowsDeleted > 0) {
-                System.out.println("Vehicle with id " + id + " deleted successfully.");
+                System.out.println("Concessionaire with id " + id + " deleted successfully.");
             } else {
-                System.out.println("Vehicle with id " + id + " not found.");
+                System.out.println("Concessionaire with id " + id + " not found.");
             }
-
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 }
-
