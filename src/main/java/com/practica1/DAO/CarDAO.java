@@ -14,7 +14,6 @@ public class CarDAO {
 
     // Método para crear un coche
     public int create(Car car) {
-            // Si el id se autogenera, no es necesario establecerlo en la inserción
             String query = "INSERT INTO Car (number_of_doors, license_plate, brand, model, \"year\", fuel_type, vehicle_id) " +
                     "VALUES (?, ?, ?, ?, ?, ?, ?)";
             try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
@@ -27,21 +26,16 @@ public class CarDAO {
                 stmt.setString(4, car.getModel());
                 stmt.setInt(5, car.getYear());
                 stmt.setString(6, car.getFuelType().name());
-                stmt.setInt(7, car.getVehicleId()); // Relación con la tabla Vehicle
+                stmt.setInt(7, car.getVehicleId());
 
-                // Ejecutar la inserción
                 stmt.executeUpdate();
-
-                // En este caso, como el id es autogenerado, no es necesario obtenerlo manualmente.
-                // El id será generado por la base de datos y se asignará automáticamente en el objeto Car después de la inserción.
 
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-            return -1; // Si ocurrió un error, retornar -1
+            return -1;
     }
 
-    // Método para encontrar un coche por su ID
     public Optional<Car> findById(int id) {
         String query = "SELECT * FROM Car WHERE id = ?";
         try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
@@ -51,7 +45,6 @@ public class CarDAO {
             ResultSet resultSet = stmt.executeQuery();
 
             if (resultSet.next()) {
-                // Crear el objeto Car a partir de los datos de la base de datos
                 Car car = new Car();
                 car.setId(resultSet.getInt("id"));
                 car.setNumberOfDoors(resultSet.getInt("number_of_doors"));
@@ -59,18 +52,17 @@ public class CarDAO {
                 car.setBrand(resultSet.getString("brand"));
                 car.setModel(resultSet.getString("model"));
                 car.setYear(resultSet.getInt("year"));
-                car.setFuelType(FuelType.ELECTRIC);//cambiar esto segun lo que encuente en la ddbb.
+                car.setFuelType(FuelType.ELECTRIC);
                 car.setVehicleId(resultSet.getInt("vehicle_id"));
 
-                return Optional.of(car); // Retornar el coche si se encuentra
+                return Optional.of(car);
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return Optional.empty(); // Retornar un Optional vacío si no se encuentra
+        return Optional.empty();
     }
 
-    // Método para actualizar un coche
     public void update(Car car) {
         String query = "UPDATE Car SET number_of_doors = ?, license_plate = ?, brand = ?, model = ?, \"year\" = ?, fuel_type = ?, vehicle_id = ? WHERE id = ?";
 
@@ -99,8 +91,7 @@ public class CarDAO {
             e.printStackTrace();
         }
     }
-
-    // Método para eliminar un coche por su ID
+    
     public void deleteById(int id) {
         String query = "DELETE FROM Car WHERE id = ?";
 
@@ -118,5 +109,32 @@ public class CarDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    public Optional<Car> findBylicensePlate(String licensePlate) {
+        String query = "SELECT * FROM Car WHERE license_plate = ?";
+        try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
+             PreparedStatement stmt = connection.prepareStatement(query)) {
+
+            stmt.setString(1, licensePlate);
+            ResultSet resultSet = stmt.executeQuery();
+
+            if (resultSet.next()) {
+                Car car = new Car();
+                car.setId(resultSet.getInt("id"));
+                car.setNumberOfDoors(resultSet.getInt("number_of_doors"));
+                car.setLicensePlate(resultSet.getString("license_plate"));
+                car.setBrand(resultSet.getString("brand"));
+                car.setModel(resultSet.getString("model"));
+                car.setYear(resultSet.getInt("year"));
+                car.setFuelType(FuelType.valueOf(resultSet.getString("fuel_type")));
+                car.setVehicleId(resultSet.getInt("vehicle_id"));
+
+                return Optional.of(car);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return Optional.empty();
     }
 }

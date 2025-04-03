@@ -6,6 +6,7 @@ public class Car extends Vehicle{
 
     private int id;
     private int vehicleId;
+    private int concessionaireId;
     private int numberOfDoors;
 
     public Car(String brand, String model, int year, FuelType fuelType, String licensePlate, int numbrerOfDoors) {
@@ -37,6 +38,14 @@ public class Car extends Vehicle{
 
     public void setVehicleId(int vehicleId) {
         this.vehicleId = vehicleId;
+    }
+
+    public int getConcessionaireId() {
+        return concessionaireId;
+    }
+
+    public void setConcessionaireId(int concessionaireId) {
+        this.concessionaireId = concessionaireId;
     }
 
     @Override

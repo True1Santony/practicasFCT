@@ -12,26 +12,21 @@ public class MotorcycleDAO {
 
     // Método para crear una motocicleta
     public int create(Motorcycle motorcycle) {
-        String query = "INSERT INTO Motorcycle (engine_displacement, license_plate, brand, model, \"year\", fuel_type) " +
-                "VALUES (?, ?, ?, ?, ?, ?)";
+        String query = "INSERT INTO Motorcycle (id_concessionaire, engine_displacement, license_plate, brand, model, \"year\", fuel_type) " +
+                "VALUES (?, ?, ?, ?, ?, ?, ?)";
         try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
              PreparedStatement stmt = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
 
-            stmt.setInt(1, motorcycle.getEngineDisplacement());
-            stmt.setString(2, motorcycle.getLicensePlate());
-            stmt.setString(3, motorcycle.getBrand());
-            stmt.setString(4, motorcycle.getModel());
-            stmt.setInt(5, motorcycle.getYear());
-            stmt.setString(6, motorcycle.getFuelType().name());
+            stmt.setInt(1,motorcycle.getConcessionaireId());
+            stmt.setInt(2, motorcycle.getEngineDisplacement());
+            stmt.setString(3, motorcycle.getLicensePlate());
+            stmt.setString(4, motorcycle.getBrand());
+            stmt.setString(5, motorcycle.getModel());
+            stmt.setInt(6, motorcycle.getYear());
+            stmt.setString(7, motorcycle.getFuelType().name());
 
             stmt.executeUpdate();
 
-            try (ResultSet generatedKeys = stmt.getGeneratedKeys()) {
-                if (generatedKeys.next()) {
-                    motorcycle.setId(generatedKeys.getInt(1));  // Asignamos el ID generado al objeto Motorcycle
-                    return motorcycle.getId();
-                }
-            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -54,8 +49,9 @@ public class MotorcycleDAO {
                         resultSet.getInt("year"),
                         FuelType.valueOf(resultSet.getString("fuel_type")),
                         resultSet.getString("license_plate"),
-                        resultSet.getInt("engine_displacement")
-                );
+                        resultSet.getInt("engine_displacement"),
+                        resultSet.getInt("id_concessionaire")
+                        );
                 motorcycle.setId(resultSet.getInt("id"));
                 return motorcycle;
             }

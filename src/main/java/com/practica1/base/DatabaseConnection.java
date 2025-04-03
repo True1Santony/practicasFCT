@@ -31,6 +31,7 @@ public class DatabaseConnection {
             // Crear la tabla Car
             statement.execute("CREATE TABLE IF NOT EXISTS Car (" +
                     "id INT PRIMARY KEY AUTO_INCREMENT, " +
+                    "id_concessionaire INT," +
                     "number_of_doors INT, " +
                     "license_plate VARCHAR(50) UNIQUE NOT NULL, " +
                     "brand VARCHAR(50), " +
@@ -44,6 +45,7 @@ public class DatabaseConnection {
             // Crear la tabla Motorcycle
             statement.execute("CREATE TABLE IF NOT EXISTS Motorcycle (" +
                     "id INT PRIMARY KEY AUTO_INCREMENT, " +
+                    "id_concessionaire INT," +
                     "engine_displacement INT, " +
                     "license_plate VARCHAR(50) UNIQUE NOT NULL, " +
                     "brand VARCHAR(50), " +
@@ -65,6 +67,11 @@ public class DatabaseConnection {
                         statement.execute("""
                             INSERT INTO Motorcycle (engine_displacement, license_plate, brand, model, "year", fuel_type)
                             VALUES (600, 'TESTMOTO1', 'Honda', 'CBR', 2019, 'GASOLINE')
+                        """);
+
+                        statement.execute("""
+                            INSERT INTO Car (number_of_doors, license_plate, brand, model, "year", fuel_type, vehicle_id)
+                            VALUES (5,'TESTCOCHE1','SEAT', 'IBIZA', 2019, 'GASOLINE', 1)
                         """);
                     }
                 }
