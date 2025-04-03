@@ -1,5 +1,6 @@
 package com.practica1.DAO;
 
+import com.practica1.base.DatabaseConnection;
 import com.practica1.model.Car;
 import com.practica1.model.common.FuelType;
 
@@ -8,15 +9,27 @@ import java.util.Optional;
 
 public class CarDAO {
 
-    private static final String URL = "jdbc:h2:file:./concesionario_db";
-    private static final String USER = "sa";
-    private static final String PASSWORD = "";
+    private final VehicleDAO vehicleService = new VehicleDAO();
 
-    // Método para crear un coche
     public int create(Car car) {
+
+        // Obtener el vehicleId correspondiente al tipo "CAR"
+        Optional<Integer> vehicleIdOptional = vehicleService.findIdByType("CAR");
+        if (vehicleIdOptional.isEmpty()) {
+            System.out.println("No se encontró un vehicleId para el tipo CAR. Creando uno...");
+            int newVehicleId = vehicleService.create("CAR");
+            if (newVehicleId == -1) {
+                System.out.println("Error al crear el vehicleId para CAR.");
+                return -1;
+            }
+            car.setVehicleId(newVehicleId);
+        } else {
+            car.setVehicleId(vehicleIdOptional.get());
+        }
+
             String query = "INSERT INTO Car (number_of_doors, license_plate, brand, model, \"year\", fuel_type, vehicle_id) " +
                     "VALUES (?, ?, ?, ?, ?, ?, ?)";
-            try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
+            try (Connection connection = DatabaseConnection.getConnection();
                  PreparedStatement stmt = connection.prepareStatement(query)) {
 
                 // Establecer los valores para los campos del coche (sin el id)
@@ -38,7 +51,7 @@ public class CarDAO {
 
     public Optional<Car> findById(int id) {
         String query = "SELECT * FROM Car WHERE id = ?";
-        try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
+        try (Connection connection = DatabaseConnection.getConnection();
              PreparedStatement stmt = connection.prepareStatement(query)) {
 
             stmt.setInt(1, id);
@@ -66,7 +79,7 @@ public class CarDAO {
     public void update(Car car) {
         String query = "UPDATE Car SET number_of_doors = ?, license_plate = ?, brand = ?, model = ?, \"year\" = ?, fuel_type = ?, vehicle_id = ? WHERE id = ?";
 
-        try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
+        try (Connection connection = DatabaseConnection.getConnection();
              PreparedStatement stmt = connection.prepareStatement(query)) {
 
             // Establecer los valores para cada campo del coche
@@ -95,7 +108,7 @@ public class CarDAO {
     public void deleteById(int id) {
         String query = "DELETE FROM Car WHERE id = ?";
 
-        try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
+        try (Connection connection = DatabaseConnection.getConnection();
              PreparedStatement stmt = connection.prepareStatement(query)) {
 
             stmt.setInt(1, id);
@@ -113,7 +126,7 @@ public class CarDAO {
 
     public Optional<Car> findBylicensePlate(String licensePlate) {
         String query = "SELECT * FROM Car WHERE license_plate = ?";
-        try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
+        try (Connection connection = DatabaseConnection.getConnection();
              PreparedStatement stmt = connection.prepareStatement(query)) {
 
             stmt.setString(1, licensePlate);

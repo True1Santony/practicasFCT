@@ -1,9 +1,6 @@
 package com.practica1.base;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.Statement;
+import java.sql.*;
 
 public class DatabaseConnection {
 
@@ -13,7 +10,7 @@ public class DatabaseConnection {
 
     public static void initializeDatabase() {
 
-        try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
+        try (Connection connection = getConnection();
              Statement statement = connection.createStatement()) {
 
             // Crear la tabla Vehicle
@@ -80,5 +77,10 @@ public class DatabaseConnection {
         } catch (Exception e) {
             System.err.println("Error initializing database: " + e.getMessage());
         }
+    }
+
+
+    public static Connection getConnection() throws SQLException {
+        return DriverManager.getConnection(URL, USER, PASSWORD);
     }
 }

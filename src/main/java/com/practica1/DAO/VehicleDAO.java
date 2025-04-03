@@ -1,17 +1,15 @@
 package com.practica1.DAO;
 
+import com.practica1.base.DatabaseConnection;
+
 import java.sql.*;
 import java.util.Optional;
 
 public class VehicleDAO {
 
-    private static final String URL = "jdbc:h2:file:./concesionario_db";
-    private static final String USER = "sa";
-    private static final String PASSWORD = "";
-
     public int create(String vehicleType) {
         String query = "INSERT INTO Vehicle (vehicle_type) VALUES (?)";
-        try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
+        try (Connection connection = DatabaseConnection.getConnection();
              PreparedStatement stmt = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
             stmt.setString(1, vehicleType);
             stmt.executeUpdate();
@@ -30,7 +28,7 @@ public class VehicleDAO {
 
     public Optional<String> findById(int id) {
         String query = "SELECT vehicle_type FROM Vehicle WHERE id = ?";
-        try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
+        try (Connection connection = DatabaseConnection.getConnection();
              PreparedStatement stmt = connection.prepareStatement(query)) {
 
             stmt.setInt(1, id);
@@ -49,7 +47,7 @@ public class VehicleDAO {
     public void update(int id, String vehicleType) {
         String query = "UPDATE Vehicle SET vehicle_type = ? WHERE id = ?";
 
-        try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
+        try (Connection connection = DatabaseConnection.getConnection();
              PreparedStatement stmt = connection.prepareStatement(query)) {
 
             // Establecemos el valor para el campo vehicle_type y el id del vehículo
@@ -73,7 +71,7 @@ public class VehicleDAO {
     public void deleteById(int id) {
         String query = "DELETE FROM Vehicle WHERE id = ?";
 
-        try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
+        try (Connection connection = DatabaseConnection.getConnection();
              PreparedStatement stmt = connection.prepareStatement(query)) {
 
             stmt.setInt(1, id);
@@ -88,6 +86,23 @@ public class VehicleDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    public Optional<Integer> findIdByType(String vehicleType) {
+        String query = "SELECT id FROM Vehicle WHERE vehicle_type = ?";
+        try (Connection connection = DatabaseConnection.getConnection();
+             PreparedStatement stmt = connection.prepareStatement(query)) {
+
+            stmt.setString(1, vehicleType);
+            ResultSet resultSet = stmt.executeQuery();
+
+            if (resultSet.next()) {
+                return Optional.of(resultSet.getInt("id")); // Devolvemos el ID del vehículo encontrado
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return Optional.empty(); // Si no se encuentra, devolvemos un Optional vacío
     }
 }
 
