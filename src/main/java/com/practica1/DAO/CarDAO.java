@@ -91,7 +91,7 @@ public class CarDAO {
             e.printStackTrace();
         }
     }
-    
+
     public void deleteById(int id) {
         String query = "DELETE FROM Car WHERE id = ?";
 
