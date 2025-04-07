@@ -5,78 +5,43 @@ import com.practica1.model.Car;
 import com.practica1.model.common.FuelType;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 public class CarDAO {
 
     private final VehicleDAO vehicleService = new VehicleDAO();
 
-    public int create(Car car) {
+    public int create(Car car, int vehicleId) {
 
-        // Obtener el vehicleId correspondiente al tipo "CAR"
-        Optional<Integer> vehicleIdOptional = vehicleService.findIdByType("CAR");
-        if (vehicleIdOptional.isEmpty()) {
-            System.out.println("No se encontró un vehicleId para el tipo CAR. Creando uno...");
-            int newVehicleId = vehicleService.create("CAR");
-            if (newVehicleId == -1) {
-                System.out.println("Error al crear el vehicleId para CAR.");
-                return -1;
-            }
-            car.setVehicleId(newVehicleId);
-        } else {
-            car.setVehicleId(vehicleIdOptional.get());
-        }
+        car.setVehicleId(vehicleId);
 
-            String query = "INSERT INTO Car (number_of_doors, license_plate, brand, model, \"year\", fuel_type, vehicle_id) " +
-                    "VALUES (?, ?, ?, ?, ?, ?, ?)";
-            try (Connection connection = DatabaseConnection.getConnection();
-                 PreparedStatement stmt = connection.prepareStatement(query)) {
+        String query = "INSERT INTO Car (number_of_doors, license_plate, brand, model, \"year\", fuel_type, vehicle_id, id_concessionaire) " +
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
-                // Establecer los valores para los campos del coche (sin el id)
-                stmt.setInt(1, car.getNumberOfDoors());
-                stmt.setString(2, car.getLicensePlate());
-                stmt.setString(3, car.getBrand());
-                stmt.setString(4, car.getModel());
-                stmt.setInt(5, car.getYear());
-                stmt.setString(6, car.getFuelType().name());
-                stmt.setInt(7, car.getVehicleId());
-
-                stmt.executeUpdate();
-
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-            return -1;
-    }
-
-    public Optional<Car> findById(int id) {
-        String query = "SELECT * FROM Car WHERE id = ?";
         try (Connection connection = DatabaseConnection.getConnection();
              PreparedStatement stmt = connection.prepareStatement(query)) {
 
-            stmt.setInt(1, id);
-            ResultSet resultSet = stmt.executeQuery();
+            stmt.setInt(1, car.getNumberOfDoors());
+            stmt.setString(2, car.getLicensePlate());
+            stmt.setString(3, car.getBrand());
+            stmt.setString(4, car.getModel());
+            stmt.setInt(5, car.getYear());
+            stmt.setString(6, car.getFuelType().name());
+            stmt.setInt(7, car.getVehicleId());
+            stmt.setInt(8, car.getConcessionaireId());
 
-            if (resultSet.next()) {
-                Car car = new Car();
-                car.setId(resultSet.getInt("id"));
-                car.setNumberOfDoors(resultSet.getInt("number_of_doors"));
-                car.setLicensePlate(resultSet.getString("license_plate"));
-                car.setBrand(resultSet.getString("brand"));
-                car.setModel(resultSet.getString("model"));
-                car.setYear(resultSet.getInt("year"));
-                car.setFuelType(FuelType.ELECTRIC);
-                car.setVehicleId(resultSet.getInt("vehicle_id"));
+            stmt.executeUpdate();
 
-                return Optional.of(car);
-            }
         } catch (SQLException e) {
             e.printStackTrace();
+            return -1;
         }
-        return Optional.empty();
+        return 1;
     }
 
-    public void update(Car car) {
+    public void update(Car car, int carId) {
         String query = "UPDATE Car SET number_of_doors = ?, license_plate = ?, brand = ?, model = ?, \"year\" = ?, fuel_type = ?, vehicle_id = ? WHERE id = ?";
 
         try (Connection connection = DatabaseConnection.getConnection();
@@ -90,7 +55,7 @@ public class CarDAO {
             stmt.setInt(5, car.getYear());
             stmt.setString(6, car.getFuelType().name());
             stmt.setInt(7, car.getVehicleId()); // Relación con la tabla Vehicle
-            stmt.setInt(8, car.getId()); // ID del coche a actualizar
+            stmt.setInt(8, carId); // ID del coche a actualizar
 
             // Ejecutar la actualización
             int rowsUpdated = stmt.executeUpdate();
@@ -142,6 +107,7 @@ public class CarDAO {
                 car.setYear(resultSet.getInt("year"));
                 car.setFuelType(FuelType.valueOf(resultSet.getString("fuel_type")));
                 car.setVehicleId(resultSet.getInt("vehicle_id"));
+                car.setConcessionaireId(resultSet.getInt("id_concessionaire"));
 
                 return Optional.of(car);
             }
@@ -150,4 +116,66 @@ public class CarDAO {
         }
         return Optional.empty();
     }
+
+    public List<Car> findAll() {
+        List<Car> cars = new ArrayList<>();
+        String query = "SELECT * FROM Car";
+
+        try (Connection connection = DatabaseConnection.getConnection();
+             PreparedStatement stmt = connection.prepareStatement(query)) {
+
+            ResultSet resultSet = stmt.executeQuery();
+
+            while (resultSet.next()) {
+                Car car = new Car();
+                car.setId(resultSet.getInt("id"));
+                car.setNumberOfDoors(resultSet.getInt("number_of_doors"));
+                car.setLicensePlate(resultSet.getString("license_plate"));
+                car.setBrand(resultSet.getString("brand"));
+                car.setModel(resultSet.getString("model"));
+                car.setYear(resultSet.getInt("year"));
+                car.setFuelType(FuelType.valueOf(resultSet.getString("fuel_type")));
+                car.setVehicleId(resultSet.getInt("vehicle_id"));
+                car.setConcessionaireId(resultSet.getInt("id_concessionaire"));
+
+                cars.add(car);  // Añadir el coche a la lista
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return cars;  // Retornar la lista con todos los coches
+    }
+
+    public List<Car> findByConcessionaireId(int concessionaireId) {
+        List<Car> cars = new ArrayList<>();
+        String query = "SELECT * FROM Car WHERE id_concessionaire = ?";
+
+        try (Connection connection = DatabaseConnection.getConnection();
+             PreparedStatement stmt = connection.prepareStatement(query)) {
+
+            stmt.setInt(1, concessionaireId);  // Establecer el id del concesionario como parámetro
+            ResultSet resultSet = stmt.executeQuery();
+
+            while (resultSet.next()) {
+                Car car = new Car();
+                car.setId(resultSet.getInt("id"));
+                car.setNumberOfDoors(resultSet.getInt("number_of_doors"));
+                car.setLicensePlate(resultSet.getString("license_plate"));
+                car.setBrand(resultSet.getString("brand"));
+                car.setModel(resultSet.getString("model"));
+                car.setYear(resultSet.getInt("year"));
+                car.setFuelType(FuelType.valueOf(resultSet.getString("fuel_type")));
+                car.setVehicleId(resultSet.getInt("vehicle_id"));
+                car.setConcessionaireId(resultSet.getInt("id_concessionaire"));
+
+                cars.add(car);  // Añadir el coche a la lista
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return cars;  // Retornar la lista con los coches del concesionario
+    }
+
 }

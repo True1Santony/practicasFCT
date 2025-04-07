@@ -9,9 +9,14 @@ public class Motorcycle extends Vehicle{
     private int concessionaireId;
     private int engineDisplacement;// Cilindrada del motor
 
-    public Motorcycle(String brand, String model, int year, FuelType fuelType, String licensePlate, int engineDisplacement, int id1) {
+    public Motorcycle(String brand, String model, int year, FuelType fuelType, String licensePlate, int engineDisplacement, int concessionaireId) {
         super(brand, model, year, fuelType, licensePlate);
         this.engineDisplacement = engineDisplacement;
+        this.concessionaireId = concessionaireId;
+    }
+
+    public Motorcycle() {
+
     }
 
     public int getVehicleId() {
@@ -31,9 +36,10 @@ public class Motorcycle extends Vehicle{
     }
 
     @Override
-    public void displayInformation() {
+    public void displayInformation() throws NullPointerException{
         System.out.println("-------------------------------");
         System.out.println("Motorcycle Information: ");
+        System.out.println("ID: " + getId());
         System.out.println("Brand: " + getBrand());
         System.out.println("Licence plate: " + getLicensePlate());
         System.out.println("Model: " + getModel());

@@ -79,4 +79,5 @@ public abstract class Vehicle {
     public void setLicensePlate(String licensePlate) {
         this.licensePlate = licensePlate;
     }
+
 }

@@ -1,11 +1,15 @@
 package com.practica1.DAO;
 
 import com.practica1.base.DatabaseConnection;
+import com.practica1.model.Car;
 import com.practica1.model.Concessionaire;
+import com.practica1.model.Motorcycle;
 
 import java.sql.*;
 
 public class ConcessionaireDAO {
+
+    private static VehicleDAO vehicleService = new VehicleDAO();
 
     public int create(Concessionaire concessionaire) {
         String query = "INSERT INTO Concessionaire (name) VALUES (?)";
@@ -49,43 +53,21 @@ public class ConcessionaireDAO {
         return null; // Si no se encuentra el concesionario, retornar null
     }
 
-    public void update(Concessionaire concessionaire) {
-        String query = "UPDATE Concessionaire SET name = ? WHERE id = ?";
 
-        try (Connection connection = DatabaseConnection.getConnection();
-             PreparedStatement stmt = connection.prepareStatement(query)) {
-
-            stmt.setString(1, concessionaire.getName());
-            stmt.setInt(2, concessionaire.getId());
-
-            int rowsUpdated = stmt.executeUpdate();
-
-            if (rowsUpdated > 0) {
-                System.out.println("Concessionaire updated successfully.");
-            } else {
-                System.out.println("Concessionaire with id " + concessionaire.getId() + " not found.");
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void deleteById(int id) {
-        String query = "DELETE FROM Concessionaire WHERE id = ?";
-
-        try (Connection connection = DatabaseConnection.getConnection();
-             PreparedStatement stmt = connection.prepareStatement(query)) {
-
-            stmt.setInt(1, id);
-            int rowsDeleted = stmt.executeUpdate();
-
-            if (rowsDeleted > 0) {
-                System.out.println("Concessionaire with id " + id + " deleted successfully.");
-            } else {
-                System.out.println("Concessionaire with id " + id + " not found.");
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+    public void infoConcessionareByLicencePlate(String licencePlate){
+        vehicleService.findByLicensePlate(licencePlate)
+                .ifPresent(vehicle -> {
+                    if (vehicle instanceof Car) {
+                        Car car = (Car) vehicle;
+                        findById(car.getConcessionaireId())
+                                .displayInformation();
+                    } else if (vehicle instanceof Motorcycle) {
+                        Motorcycle motorcycle = (Motorcycle) vehicle;
+                        findById(motorcycle.getConcessionaireId())
+                                .displayInformation();
+                    } else {
+                        System.out.println("El vehículo encontrado no es ni un coche ni una moto.");
+                    }
+                });
     }
 }

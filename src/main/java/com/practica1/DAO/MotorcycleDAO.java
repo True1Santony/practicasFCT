@@ -1,16 +1,18 @@
 package com.practica1.DAO;
 
 import com.practica1.base.DatabaseConnection;
+import com.practica1.model.Car;
 import com.practica1.model.Motorcycle;
 import com.practica1.model.common.FuelType;
 
 import java.sql.*;
+import java.util.Optional;
 
 public class MotorcycleDAO {
 
-    public int create(Motorcycle motorcycle) {
-        String query = "INSERT INTO Motorcycle (id_concessionaire, engine_displacement, license_plate, brand, model, \"year\", fuel_type) " +
-                "VALUES (?, ?, ?, ?, ?, ?, ?)";
+    public int create(Motorcycle motorcycle,int vehicleId) {
+        String query = "INSERT INTO Motorcycle (id_concessionaire, engine_displacement, license_plate, brand, model, \"year\", fuel_type, vehicle_id) " +
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         try (Connection connection = DatabaseConnection.getConnection();
              PreparedStatement stmt = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
 
@@ -21,6 +23,7 @@ public class MotorcycleDAO {
             stmt.setString(5, motorcycle.getModel());
             stmt.setInt(6, motorcycle.getYear());
             stmt.setString(7, motorcycle.getFuelType().name());
+            stmt.setInt(8, vehicleId);
 
             stmt.executeUpdate();
 
@@ -30,34 +33,8 @@ public class MotorcycleDAO {
         return -1;
     }
 
-    public Motorcycle findById(int id) {
-        String query = "SELECT * FROM Motorcycle WHERE id = ?";
-        try (Connection connection = DatabaseConnection.getConnection();
-             PreparedStatement stmt = connection.prepareStatement(query)) {
 
-            stmt.setInt(1, id);
-            ResultSet resultSet = stmt.executeQuery();
-
-            if (resultSet.next()) {
-                Motorcycle motorcycle = new Motorcycle(
-                        resultSet.getString("brand"),
-                        resultSet.getString("model"),
-                        resultSet.getInt("year"),
-                        FuelType.valueOf(resultSet.getString("fuel_type")),
-                        resultSet.getString("license_plate"),
-                        resultSet.getInt("engine_displacement"),
-                        resultSet.getInt("id_concessionaire")
-                        );
-                motorcycle.setId(resultSet.getInt("id"));
-                return motorcycle;
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    public void update(Motorcycle motorcycle) {
+    public void update(Motorcycle motorcycle, int motorcycleId) {
         String query = "UPDATE Motorcycle SET engine_displacement = ?, license_plate = ?, brand = ?, model = ?, \"year\" = ?, fuel_type = ? WHERE id = ?";
 
         try (Connection connection = DatabaseConnection.getConnection();
@@ -69,7 +46,7 @@ public class MotorcycleDAO {
             stmt.setString(4, motorcycle.getModel());
             stmt.setInt(5, motorcycle.getYear());
             stmt.setString(6, motorcycle.getFuelType().name());
-            stmt.setInt(7, motorcycle.getId()); // ID de la moto a actualizar
+            stmt.setInt(7, motorcycleId); // ID de la moto a actualizar
 
             int rowsUpdated = stmt.executeUpdate();
 
@@ -100,5 +77,34 @@ public class MotorcycleDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    public Optional<Motorcycle> findBylicensePlate(String licensePlate) {
+        String query = "SELECT * FROM Motorcycle WHERE license_plate = ?";
+        try (Connection connection = DatabaseConnection.getConnection();
+             PreparedStatement stmt = connection.prepareStatement(query)) {
+
+            stmt.setString(1, licensePlate);
+            ResultSet resultSet = stmt.executeQuery();
+
+            if (resultSet.next()) {
+                Motorcycle motorcycle = new Motorcycle();
+                motorcycle.setId(resultSet.getInt("id"));
+                motorcycle.setEngineDisplacement(resultSet.getInt("engine_displacement"));
+                motorcycle.setLicensePlate(resultSet.getString("license_plate"));
+                motorcycle.setBrand(resultSet.getString("brand"));
+                motorcycle.setModel(resultSet.getString("model"));
+                motorcycle.setYear(resultSet.getInt("year"));
+                motorcycle.setFuelType(FuelType.valueOf(resultSet.getString("fuel_type")));
+                motorcycle.setVehicleId(resultSet.getInt("vehicle_id"));
+                motorcycle.setConcessionaireId(resultSet.getInt("id_concessionaire"));
+
+                return Optional.of(motorcycle);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return Optional.empty();
+
     }
 }

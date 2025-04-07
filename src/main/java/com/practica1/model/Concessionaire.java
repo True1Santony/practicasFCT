@@ -58,4 +58,12 @@ public class Concessionaire {
     public void setName(String name) {
         this.name = name;
     }
+
+    public void displayInformation() {
+        System.out.println("-------------------------------");
+        System.out.println("Concessionaire Information: ");
+        System.out.println("ID: " + getId());
+        System.out.println("Name: " + getName());
+        System.out.println("-------------------------------");
+    }
 }

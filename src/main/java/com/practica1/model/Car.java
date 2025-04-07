@@ -9,9 +9,10 @@ public class Car extends Vehicle{
     private int concessionaireId;
     private int numberOfDoors;
 
-    public Car(String brand, String model, int year, FuelType fuelType, String licensePlate, int numbrerOfDoors) {
+    public Car(String brand, String model, int year, FuelType fuelType, String licensePlate, int numbrerOfDoors, int concessionaireId) {
         super(brand, model, year, fuelType,licensePlate);
         this.numberOfDoors = numbrerOfDoors;
+        this.concessionaireId = concessionaireId;
     }
 
     public Car() {
@@ -19,15 +20,17 @@ public class Car extends Vehicle{
     }
 
     @Override
-    public void displayInformation() {
+    public void displayInformation() throws NullPointerException {
         System.out.println("-------------------------------");
         System.out.println("Car Information: ");
+        System.out.println("Car ID: " + getId());
         System.out.println("Brand: " + getBrand());
         System.out.println("Model: " + getModel());
         System.out.println("Licence plate: " + getLicensePlate());
         System.out.println("Year: " + getYear());
         System.out.println("Fuel Type: " + getFuelType());
         System.out.println("Number of Doors: " + numberOfDoors);
+        System.out.println("Id concesionare: " + getConcessionaireId());
         System.out.println("-------------------------------");
     }
 

@@ -1,23 +1,75 @@
 package com.practica1.DAO;
 
 import com.practica1.base.DatabaseConnection;
+import com.practica1.model.Car;
+import com.practica1.model.Motorcycle;
+import com.practica1.model.Vehicle;
 
 import java.sql.*;
 import java.util.Optional;
 
 public class VehicleDAO {
 
-    public int create(String vehicleType) {
+    private static final CarDAO carService = new CarDAO();
+    private static final MotorcycleDAO motorcycleService = new MotorcycleDAO();
+
+    public int create(Vehicle vehicle){
+
+        if (vehicle instanceof Car){
+            Optional<Integer> vehicleIdOptional = findIdByType("CAR");
+            int vehicleId;
+
+            // Si no se encuentra el vehicleId, se crea uno
+            if(vehicleIdOptional.isEmpty()){
+                System.out.println("No se encontró un vehicleId para el tipo CAR. Creando uno...");
+                vehicleId = createType("CAR");
+
+                if (vehicleId == -1) {
+                    return -1; // Error al crear el vehicleId
+                }
+                } else {
+                vehicleId = vehicleIdOptional.get();
+                }
+
+            //si es un coche delega la creacion a carDAO
+            return carService.create((Car) vehicle, vehicleId);
+
+        } else if (vehicle instanceof Motorcycle) {
+
+            Optional<Integer> vehicleIdOptional = findIdByType("MOTORCYCLE");
+            int vehicleId;
+
+            // Si no se encuentra el vehicleId, se crea uno
+            if (vehicleIdOptional.isEmpty()) {
+
+                System.out.println("No se encontró un vehicleId para el tipo MOTORCYCLE. Creando uno...");
+                vehicleId = createType("MOTORCYCLE");
+
+                if (vehicleId == -1) {
+                    return -1; // Error al crear el vehicleId
+                }
+                } else {
+                    vehicleId = vehicleIdOptional.get();
+                }
+            return motorcycleService.create((Motorcycle) vehicle, vehicleId);
+        } else {
+
+            System.out.println("Tipo de vehículo no soportado.");
+            return -1;
+        }
+    }
+
+    public int createType(String vehicleType) {
         String query = "INSERT INTO Vehicle (vehicle_type) VALUES (?)";
         try (Connection connection = DatabaseConnection.getConnection();
              PreparedStatement stmt = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
             stmt.setString(1, vehicleType);
             stmt.executeUpdate();
 
-            // Obtener el ID generado para el vehículo
+            // Obtener el ID generado para el vehículo por motorcycle que n otiene relaccion
             try (ResultSet generatedKeys = stmt.getGeneratedKeys()) {
                 if (generatedKeys.next()) {
-                    return generatedKeys.getInt(1); // Retornamos el ID del vehículo insertado
+                    return generatedKeys.getInt(1);
                 }
             }
         } catch (SQLException e) {
@@ -26,65 +78,16 @@ public class VehicleDAO {
         return -1;
     }
 
-    public Optional<String> findById(int id) {
-        String query = "SELECT vehicle_type FROM Vehicle WHERE id = ?";
-        try (Connection connection = DatabaseConnection.getConnection();
-             PreparedStatement stmt = connection.prepareStatement(query)) {
+    public void update(String licensePlate, Vehicle vehicle) {
+        Optional<Car> car = carService.findBylicensePlate(licensePlate);
+        Optional<Motorcycle> motorcycle = motorcycleService.findBylicensePlate(licensePlate);
 
-            stmt.setInt(1, id);
-            ResultSet resultSet = stmt.executeQuery();
-
-            if (resultSet.next()) {
-                String vehicleType = resultSet.getString("vehicle_type");
-                return Optional.of(vehicleType); // Retorna el tipo de vehículo
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
+        if (car.isPresent()){
+            carService.update((Car)vehicle, car.get().getId());
         }
-        return Optional.empty(); // Si no se encuentra el vehículo, retornamos un Optional vacío
-    }
 
-    public void update(int id, String vehicleType) {
-        String query = "UPDATE Vehicle SET vehicle_type = ? WHERE id = ?";
-
-        try (Connection connection = DatabaseConnection.getConnection();
-             PreparedStatement stmt = connection.prepareStatement(query)) {
-
-            // Establecemos el valor para el campo vehicle_type y el id del vehículo
-            stmt.setString(1, vehicleType);
-            stmt.setInt(2, id);
-
-            // Ejecutamos la consulta de actualización
-            int rowsUpdated = stmt.executeUpdate();
-
-            if (rowsUpdated > 0) {
-                System.out.println("Vehicle updated successfully.");
-            } else {
-                System.out.println("Vehicle with id " + id + " not found.");
-            }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void deleteById(int id) {
-        String query = "DELETE FROM Vehicle WHERE id = ?";
-
-        try (Connection connection = DatabaseConnection.getConnection();
-             PreparedStatement stmt = connection.prepareStatement(query)) {
-
-            stmt.setInt(1, id);
-            int rowsDeleted = stmt.executeUpdate();
-
-            if (rowsDeleted > 0) {
-                System.out.println("Vehicle with id " + id + " deleted successfully.");
-            } else {
-                System.out.println("Vehicle with id " + id + " not found.");
-            }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
+        if (motorcycle.isPresent()){
+            motorcycleService.update((Motorcycle)vehicle, motorcycle.get().getId());
         }
     }
 
@@ -103,6 +106,37 @@ public class VehicleDAO {
             e.printStackTrace();
         }
         return Optional.empty(); // Si no se encuentra, devolvemos un Optional vacío
+    }
+
+    public void deleteByLicensePlate(String licensePlate) {
+
+        Optional<Car> car = carService.findBylicensePlate(licensePlate);
+        Optional<Motorcycle> motorcycle = motorcycleService.findBylicensePlate(licensePlate);
+
+        if (car.isPresent()){
+            carService.deleteById(car.get().getId());
+        }
+
+        if (motorcycle.isPresent()){
+            motorcycleService.deleteById(motorcycle.get().getId());
+        }
+
+    }
+
+    public Optional<Vehicle> findByLicensePlate(String licensePlate) {
+
+        Optional<Car> car = carService.findBylicensePlate(licensePlate);
+        Optional<Motorcycle> motorcycle = motorcycleService.findBylicensePlate(licensePlate);
+
+        if (car.isPresent()){
+            return Optional.of(car.get());
+        }
+
+        if (motorcycle.isPresent()){
+            return Optional.of(motorcycle.get());
+        }
+        System.out.println("No se encontró ningún vehículo con la matrícula: " + licensePlate);
+        return Optional.empty();
     }
 }
 
