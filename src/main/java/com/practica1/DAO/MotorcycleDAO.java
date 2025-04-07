@@ -1,20 +1,17 @@
 package com.practica1.DAO;
 
+import com.practica1.base.DatabaseConnection;
 import com.practica1.model.Motorcycle;
 import com.practica1.model.common.FuelType;
 
 import java.sql.*;
 
 public class MotorcycleDAO {
-    private static final String URL = "jdbc:h2:file:./concesionario_db";
-    private static final String USER = "sa";
-    private static final String PASSWORD = "";
 
-    // Método para crear una motocicleta
     public int create(Motorcycle motorcycle) {
         String query = "INSERT INTO Motorcycle (id_concessionaire, engine_displacement, license_plate, brand, model, \"year\", fuel_type) " +
                 "VALUES (?, ?, ?, ?, ?, ?, ?)";
-        try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
+        try (Connection connection = DatabaseConnection.getConnection();
              PreparedStatement stmt = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
 
             stmt.setInt(1,motorcycle.getConcessionaireId());
@@ -30,13 +27,12 @@ public class MotorcycleDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return -1; // Si ocurrió un error, retornar -1
+        return -1;
     }
 
-    // Método para encontrar una motocicleta por su ID
     public Motorcycle findById(int id) {
         String query = "SELECT * FROM Motorcycle WHERE id = ?";
-        try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
+        try (Connection connection = DatabaseConnection.getConnection();
              PreparedStatement stmt = connection.prepareStatement(query)) {
 
             stmt.setInt(1, id);
@@ -58,14 +54,13 @@ public class MotorcycleDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return null; // Si no se encuentra la motocicleta, retornar null
+        return null;
     }
 
-    // Método para actualizar una motocicleta
     public void update(Motorcycle motorcycle) {
         String query = "UPDATE Motorcycle SET engine_displacement = ?, license_plate = ?, brand = ?, model = ?, \"year\" = ?, fuel_type = ? WHERE id = ?";
 
-        try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
+        try (Connection connection = DatabaseConnection.getConnection();
              PreparedStatement stmt = connection.prepareStatement(query)) {
 
             stmt.setInt(1, motorcycle.getEngineDisplacement());
@@ -88,11 +83,10 @@ public class MotorcycleDAO {
         }
     }
 
-    // Método para eliminar una motocicleta por su ID
     public void deleteById(int id) {
         String query = "DELETE FROM Motorcycle WHERE id = ?";
 
-        try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
+        try (Connection connection = DatabaseConnection.getConnection();
              PreparedStatement stmt = connection.prepareStatement(query)) {
 
             stmt.setInt(1, id);

@@ -15,35 +15,22 @@ public class Main {
       static MotorcycleDAO motorcycleService = new MotorcycleDAO();
 
     public static void main(String[] args)  {
-        DatabaseConnection databaseConnection = new DatabaseConnection();
-        databaseConnection.initializeDatabase();
 
-        int idConce1 = concessionaireService.create(new Concessionaire("KIA SA"));
-        int idConce2 = concessionaireService.create(new Concessionaire("BMW Logroño SAU"));
+        DatabaseConnection.initializeDatabase();
 
-        Car car = new Car("Honda","Civic",2005, FuelType.DIESEL,"5704GPO",5);
-        Car car1 = new Car("Seat","Azteca",2020, FuelType.DIESEL,"1456ASD",5);
-        Car car2 = new Car("Mazda","MX2",2005, FuelType.DIESEL,"5704GPN",5);
-        car.setVehicleId(1);
-        car.setConcessionaireId(idConce1);
-        car1.setVehicleId(1);
-        car1.setConcessionaireId(idConce2);
-        car2.setVehicleId(1);
-        car2.setConcessionaireId(idConce2);
+        int concessionaireId1 = concessionaireService.create(new Concessionaire("KIA SA"));
+        int concessionaireId2 = concessionaireService.create(new Concessionaire("BMW Logroño SAU"));
 
-        motorcycleService.create(new Motorcycle("yamaha","amc", 2018, FuelType.GASOLINE, "4654ASD",600, idConce1));
-        motorcycleService.create(new Motorcycle("yamaha","amc", 2018, FuelType.GASOLINE, "5487ASD",600, idConce1));
-        motorcycleService.create(new Motorcycle("yamaha","amc", 2018, FuelType.GASOLINE, "54523SD",600, idConce2));
+        carService.create(new Car("Honda","Civic",2005, FuelType.DIESEL,"5704GPO",5));
+        carService.create(new Car("Seat","Azteca",2020, FuelType.DIESEL,"1456ASD",5));
+        carService.create(new Car("Mazda","MX2",2005, FuelType.DIESEL,"5704GPN",5));
 
-        carService.create(car);
-        carService.create(car1);
-        carService.create(car2);
+        motorcycleService.create(new Motorcycle("yamaha","amc", 2018, FuelType.GASOLINE, "4654ASD",600, concessionaireId1));
+        motorcycleService.create(new Motorcycle("yamaha","amc", 2018, FuelType.GASOLINE, "5487ASD",600, concessionaireId1));
+        motorcycleService.create(new Motorcycle("yamaha","amc", 2018, FuelType.GASOLINE, "54523SD",600, concessionaireId2));
 
        carService.findBylicensePlate("5704GPN")
                .get()
                .displayInformation();
-
-
-
     }
 }

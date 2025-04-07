@@ -1,19 +1,15 @@
 package com.practica1.DAO;
 
+import com.practica1.base.DatabaseConnection;
 import com.practica1.model.Concessionaire;
 
 import java.sql.*;
 
 public class ConcessionaireDAO {
 
-    private static final String URL = "jdbc:h2:file:./concesionario_db";
-    private static final String USER = "sa";
-    private static final String PASSWORD = "";
-
-    // Método para crear un concesionario
     public int create(Concessionaire concessionaire) {
         String query = "INSERT INTO Concessionaire (name) VALUES (?)";
-        try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
+        try (Connection connection = DatabaseConnection.getConnection();
              PreparedStatement stmt = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
 
             stmt.setString(1, concessionaire.getName());
@@ -33,10 +29,9 @@ public class ConcessionaireDAO {
         return -1; // Si ocurrió un error, retornar -1
     }
 
-    // Método para encontrar un concesionario por su ID
     public Concessionaire findById(int id) {
         String query = "SELECT * FROM Concessionaire WHERE id = ?";
-        try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
+        try (Connection connection = DatabaseConnection.getConnection();
              PreparedStatement stmt = connection.prepareStatement(query)) {
 
             stmt.setInt(1, id);
@@ -54,11 +49,10 @@ public class ConcessionaireDAO {
         return null; // Si no se encuentra el concesionario, retornar null
     }
 
-    // Método para actualizar un concesionario
     public void update(Concessionaire concessionaire) {
         String query = "UPDATE Concessionaire SET name = ? WHERE id = ?";
 
-        try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
+        try (Connection connection = DatabaseConnection.getConnection();
              PreparedStatement stmt = connection.prepareStatement(query)) {
 
             stmt.setString(1, concessionaire.getName());
@@ -76,11 +70,10 @@ public class ConcessionaireDAO {
         }
     }
 
-    // Método para eliminar un concesionario por su ID
     public void deleteById(int id) {
         String query = "DELETE FROM Concessionaire WHERE id = ?";
 
-        try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
+        try (Connection connection = DatabaseConnection.getConnection();
              PreparedStatement stmt = connection.prepareStatement(query)) {
 
             stmt.setInt(1, id);
