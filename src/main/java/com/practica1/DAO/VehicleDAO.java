@@ -21,12 +21,14 @@ public class VehicleDAO {
 
             // Si no se encuentra el vehicleId, se crea uno
             if(vehicleIdOptional.isEmpty()){
+
                 System.out.println("No se encontró un vehicleId para el tipo CAR. Creando uno...");
                 vehicleId = createType("CAR");
 
-                if (vehicleId == -1) {
-                    return -1; // Error al crear el vehicleId
-                }
+                    if (vehicleId == -1) {
+                        return -1; // Error al crear el vehicleId
+                    }
+
                 } else {
                 vehicleId = vehicleIdOptional.get();
                 }

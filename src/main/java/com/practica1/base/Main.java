@@ -52,14 +52,10 @@ public class Main {
         vehicleService.update("5704GPO", new Motorcycle("SEAT","MO", 2022, FuelType.ELECTRIC, "5704GPO",125, concessionaireId2));
 
         //Buscar todos los coches y mostrar su información.
-        for (Car car:carService.findAll()){
-            car.displayInformation();
-        }
+        carService.findAll().forEach(Car::displayInformation);
 
         //Mostrar solo los coches de uno de los concesionarios.
-        for (Car car:carService.findByConcessionaireId(concessionaireId2)){
-            car.displayInformation();
-        }
+        carService.findByConcessionaireId(concessionaireId2).forEach(Car::displayInformation);
 
     }
 }
