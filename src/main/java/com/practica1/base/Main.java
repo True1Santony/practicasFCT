@@ -6,10 +6,8 @@ import com.practica1.DAO.VehicleDAO;
 import com.practica1.model.Car;
 import com.practica1.model.Concessionaire;
 import com.practica1.model.Motorcycle;
+import com.practica1.model.Vehicle;
 import com.practica1.model.common.FuelType;
-
-import java.util.NoSuchElementException;
-
 
 public class Main {
 
@@ -34,9 +32,9 @@ public class Main {
         vehicleService.create(new Motorcycle("yamaha","amc", 2018, FuelType.GASOLINE, "5704GPO",600, concessionaireId2));
 
         //Buscar y mostrar información de un coche con matricula “5704GPN“, incluir la información del concesionario.
-        vehicleService.findByLicensePlate("5704GPO")
-                .get()
-                .displayInformation();
+        vehicleService.findByLicensePlate("5704GPO").ifPresentOrElse(
+                Vehicle::displayInformation,
+                () -> System.out.println("No se encontró ningún vehículo con la matrícula: "));
 
        concessionaireService.infoConcessionareByLicencePlate("5704GPN");
 
@@ -44,13 +42,11 @@ public class Main {
        vehicleService.deleteByLicensePlate("5704GPN");
 
        //Buscar y mostrar mensaje de vehículo no encontrado con matricula “5704GPN“
-        try {
-            vehicleService.findByLicensePlate("5704GPN")
-                    .get()
-                    .displayInformation();
-
-        }catch (NoSuchElementException e){
-        }
+        String licensePlateToSearch = "5704GPN";
+        vehicleService.findByLicensePlate(licensePlateToSearch).ifPresentOrElse(
+                vehicle -> vehicle.displayInformation(),
+                () -> System.out.println("No se encontró ningún vehículo con la matrícula: " + licensePlateToSearch)
+        );
 
         //Modificar algunos datos del vehículo con matricula “5704GPO“
         vehicleService.update("5704GPO", new Motorcycle("SEAT","MO", 2022, FuelType.ELECTRIC, "5704GPO",125, concessionaireId2));

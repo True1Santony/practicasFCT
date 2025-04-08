@@ -1,7 +1,6 @@
 package com.practica1.DAO;
 
 import com.practica1.base.DatabaseConnection;
-import com.practica1.model.Car;
 import com.practica1.model.Motorcycle;
 import com.practica1.model.common.FuelType;
 

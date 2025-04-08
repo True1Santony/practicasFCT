@@ -135,7 +135,7 @@ public class VehicleDAO {
         if (motorcycle.isPresent()){
             return Optional.of(motorcycle.get());
         }
-        System.out.println("No se encontró ningún vehículo con la matrícula: " + licensePlate);
+
         return Optional.empty();
     }
 }
