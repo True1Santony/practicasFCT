@@ -11,28 +11,28 @@ import com.practica1.model.common.FuelType;
 
 public class Main {
 
-      static VehicleDao vehicleService = new VehicleDao();
-      static CarDao carService = new CarDao();
-      static ConcessionaireDao concessionaireService = new ConcessionaireDao();
-
     public static void main(String[] args)  {
+
+        VehicleDao vehicleService = new VehicleDao();
+        CarDao carService = new CarDao();
+        ConcessionaireDao concessionaireService = new ConcessionaireDao();
 
         DatabaseConnection.initializeDatabase();
 
         //Insertar dos concesionarios.
-        int concessionaireId1 = concessionaireService.create(new Concessionaire("KIA SA"));
-        int concessionaireId2 = concessionaireService.create(new Concessionaire("BMW Logroño SAU"));
+        int concessionaireId1 = concessionaireService.insert(new Concessionaire("KIA SA"));
+        int concessionaireId2 = concessionaireService.insert(new Concessionaire("BMW Logroño SAU"));
 
         //Insertar tres coches y tres motos, uno de ellos con matricula “5704GPN“, otro “5704GPO“, asociados a distintos concesionarios.
-        vehicleService.create(new Car("Honda","Civic",2005, FuelType.DIESEL,"5705GPA",5, concessionaireId2));
-        vehicleService.create(new Car("Seat","Azteca",2020, FuelType.DIESEL,"1456ASD",5, concessionaireId1));
-        vehicleService.create(new Car("Mazda","MX2",2005, FuelType.DIESEL,"5704GPN",5, concessionaireId2));
-        vehicleService.create(new Motorcycle("yamaha","amc", 2018, FuelType.GASOLINE, "4654ASD",600, concessionaireId1));
-        vehicleService.create(new Motorcycle("yamaha","amc", 2018, FuelType.GASOLINE, "5487ASD",600, concessionaireId1));
-        vehicleService.create(new Motorcycle("yamaha","amc", 2018, FuelType.GASOLINE, "5704GPO",600, concessionaireId2));
+        vehicleService.insert(new Car("Honda","Civic",2005, FuelType.DIESEL,"5705GPA",5, concessionaireId2));
+        vehicleService.insert(new Car("Seat","Azteca",2020, FuelType.DIESEL,"1456ASD",5, concessionaireId1));
+        vehicleService.insert(new Car("Mazda","MX2",2005, FuelType.DIESEL,"5704GPN",5, concessionaireId2));
+        vehicleService.insert(new Motorcycle("yamaha","amc", 2018, FuelType.GASOLINE, "4654ASD",600, concessionaireId1));
+        vehicleService.insert(new Motorcycle("yamaha","amc", 2018, FuelType.GASOLINE, "5487ASD",600, concessionaireId1));
+        vehicleService.insert(new Motorcycle("yamaha","amc", 2018, FuelType.GASOLINE, "5704GPO",600, concessionaireId2));
 
         //Buscar y mostrar información de un coche con matricula “5704GPN“, incluir la información del concesionario.
-        vehicleService.findByLicensePlate("5704GPO").ifPresentOrElse(
+        vehicleService.findByLicensePlate("5704GPN").ifPresentOrElse(
                 Vehicle::displayInformation,
                 () -> System.out.println("No se encontró ningún vehículo con la matrícula: "));
 

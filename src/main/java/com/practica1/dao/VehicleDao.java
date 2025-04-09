@@ -10,10 +10,10 @@ import java.util.Optional;
 
 public class VehicleDao {
 
-    private static final CarDao carService = new CarDao();
-    private static final MotorcycleDao motorcycleService = new MotorcycleDao();
+    private final CarDao carService = new CarDao();
+    private final MotorcycleDao motorcycleService = new MotorcycleDao();
 
-    public int create(Vehicle vehicle){
+    public int insert(Vehicle vehicle){
 
         if (vehicle instanceof Car){
             Optional<Integer> vehicleIdOptional = findIdByType("CAR");
@@ -23,7 +23,7 @@ public class VehicleDao {
             if(vehicleIdOptional.isEmpty()){
 
                 System.out.println("No se encontró un vehicleId para el tipo CAR. Creando uno...");
-                vehicleId = createType("CAR");
+                vehicleId = insertAndCreateType("CAR");
 
                     if (vehicleId == -1) {
                         return -1; // Error al crear el vehicleId
@@ -45,7 +45,7 @@ public class VehicleDao {
             if (vehicleIdOptional.isEmpty()) {
 
                 System.out.println("No se encontró un vehicleId para el tipo MOTORCYCLE. Creando uno...");
-                vehicleId = createType("MOTORCYCLE");
+                vehicleId = insertAndCreateType("MOTORCYCLE");
 
                 if (vehicleId == -1) {
                     return -1; // Error al crear el vehicleId
@@ -61,7 +61,7 @@ public class VehicleDao {
         }
     }
 
-    public int createType(String vehicleType) {
+    public int insertAndCreateType(String vehicleType) {
         String query = "INSERT INTO Vehicle (vehicle_type) VALUES (?)";
         try (Connection connection = DatabaseConnection.getConnection();
              PreparedStatement stmt = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {

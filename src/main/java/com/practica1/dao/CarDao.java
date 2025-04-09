@@ -11,8 +11,6 @@ import java.util.Optional;
 
 public class CarDao {
 
-    private final VehicleDao vehicleService = new VehicleDao();
-
     public int create(Car car, int vehicleId) {
 
         car.setVehicleId(vehicleId);

@@ -9,9 +9,9 @@ import java.sql.*;
 
 public class ConcessionaireDao {
 
-    private static VehicleDao vehicleService = new VehicleDao();
+    private final VehicleDao vehicleService = new VehicleDao();
 
-    public int create(Concessionaire concessionaire) {
+    public int insert(Concessionaire concessionaire) {
         String query = "INSERT INTO Concessionaire (name) VALUES (?)";
         try (Connection connection = DatabaseConnection.getConnection();
              PreparedStatement stmt = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
