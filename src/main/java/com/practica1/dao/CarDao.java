@@ -1,4 +1,4 @@
-package com.practica1.DAO;
+package com.practica1.dao;
 
 import com.practica1.base.DatabaseConnection;
 import com.practica1.model.Car;
@@ -9,9 +9,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class CarDAO {
+public class CarDao {
 
-    private final VehicleDAO vehicleService = new VehicleDAO();
+    private final VehicleDao vehicleService = new VehicleDao();
 
     public int create(Car car, int vehicleId) {
 

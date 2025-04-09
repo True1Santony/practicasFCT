@@ -1,4 +1,4 @@
-package com.practica1.DAO;
+package com.practica1.dao;
 
 import java.util.Optional;
 

@@ -19,8 +19,8 @@ INSERT INTO Motorcycle (id_concessionaire, engine_displacement, license_plate, b
 	at org.h2.jdbc.JdbcConnection.prepareCommand(JdbcConnection.java:1164)
 	at org.h2.jdbc.JdbcPreparedStatement.<init>(JdbcPreparedStatement.java:93)
 	at org.h2.jdbc.JdbcConnection.prepareStatement(JdbcConnection.java:1092)
-	at com.practica1.DAO.MotorcycleDAO.create(MotorcycleDAO.java:15)
-	at com.practica1.DAO.VehicleDAO.create(VehicleDAO.java:73)
+	at com.practica1.dao.MotorcycleDao.create(MotorcycleDAO.java:15)
+	at com.practica1.dao.VehicleDao.create(VehicleDAO.java:73)
 	at com.practica1.base.Main.main(Main.java:29)
 2025-04-07 11:19:35.963913+02:00 jdbc[3]: exception
 org.h2.jdbc.JdbcSQLSyntaxErrorException: Columna "VEHICLEID" no encontrada
@@ -43,8 +43,8 @@ INSERT INTO Motorcycle (id_concessionaire, engine_displacement, license_plate, b
 	at org.h2.jdbc.JdbcConnection.prepareCommand(JdbcConnection.java:1164)
 	at org.h2.jdbc.JdbcPreparedStatement.<init>(JdbcPreparedStatement.java:93)
 	at org.h2.jdbc.JdbcConnection.prepareStatement(JdbcConnection.java:1092)
-	at com.practica1.DAO.MotorcycleDAO.create(MotorcycleDAO.java:15)
-	at com.practica1.DAO.VehicleDAO.create(VehicleDAO.java:73)
+	at com.practica1.dao.MotorcycleDao.create(MotorcycleDAO.java:15)
+	at com.practica1.dao.VehicleDao.create(VehicleDAO.java:73)
 	at com.practica1.base.Main.main(Main.java:30)
 2025-04-07 11:19:36.055220+02:00 jdbc[3]: exception
 org.h2.jdbc.JdbcSQLSyntaxErrorException: Columna "VEHICLEID" no encontrada
@@ -67,8 +67,8 @@ INSERT INTO Motorcycle (id_concessionaire, engine_displacement, license_plate, b
 	at org.h2.jdbc.JdbcConnection.prepareCommand(JdbcConnection.java:1164)
 	at org.h2.jdbc.JdbcPreparedStatement.<init>(JdbcPreparedStatement.java:93)
 	at org.h2.jdbc.JdbcConnection.prepareStatement(JdbcConnection.java:1092)
-	at com.practica1.DAO.MotorcycleDAO.create(MotorcycleDAO.java:15)
-	at com.practica1.DAO.VehicleDAO.create(VehicleDAO.java:73)
+	at com.practica1.dao.MotorcycleDao.create(MotorcycleDAO.java:15)
+	at com.practica1.dao.VehicleDao.create(VehicleDAO.java:73)
 	at com.practica1.base.Main.main(Main.java:31)
 2025-04-07 12:07:14.200351+02:00 jdbc[3]: exception
 java.sql.SQLClientInfoException: Client info name 'ApplicationName' not supported.
@@ -275,7 +275,7 @@ General error: "org.h2.mvstore.MVStoreException: The file is locked: C:/DESARROL
 	at java.sql/java.sql.DriverManager.getConnection(DriverManager.java:683)
 	at java.sql/java.sql.DriverManager.getConnection(DriverManager.java:230)
 	at com.practica1.base.DatabaseConnection.getConnection(DatabaseConnection.java:135)
-	at com.practica1.DAO.ConcessionaireDAO.create(ConcessionaireDAO.java:12)
+	at com.practica1.dao.ConcessionaireDao.create(ConcessionaireDAO.java:12)
 	at com.practica1.base.Main.main(Main.java:22)
 Caused by: org.h2.jdbc.JdbcSQLNonTransientException: Error General : "org.h2.mvstore.MVStoreException: The file is locked: C:/DESARROLLO/fork/practicasFCT/concesionario_db.mv.db [2.3.232/7]"
 General error: "org.h2.mvstore.MVStoreException: The file is locked: C:/DESARROLLO/fork/practicasFCT/concesionario_db.mv.db [2.3.232/7]" [50000-232]
@@ -310,7 +310,7 @@ General error: "org.h2.mvstore.MVStoreException: The file is locked: C:/DESARROL
 	at java.sql/java.sql.DriverManager.getConnection(DriverManager.java:683)
 	at java.sql/java.sql.DriverManager.getConnection(DriverManager.java:230)
 	at com.practica1.base.DatabaseConnection.getConnection(DatabaseConnection.java:135)
-	at com.practica1.DAO.ConcessionaireDAO.create(ConcessionaireDAO.java:12)
+	at com.practica1.dao.ConcessionaireDao.create(ConcessionaireDAO.java:12)
 	at com.practica1.base.Main.main(Main.java:23)
 Caused by: org.h2.jdbc.JdbcSQLNonTransientException: Error General : "org.h2.mvstore.MVStoreException: The file is locked: C:/DESARROLLO/fork/practicasFCT/concesionario_db.mv.db [2.3.232/7]"
 General error: "org.h2.mvstore.MVStoreException: The file is locked: C:/DESARROLLO/fork/practicasFCT/concesionario_db.mv.db [2.3.232/7]" [50000-232]
@@ -345,8 +345,8 @@ General error: "org.h2.mvstore.MVStoreException: The file is locked: C:/DESARROL
 	at java.sql/java.sql.DriverManager.getConnection(DriverManager.java:683)
 	at java.sql/java.sql.DriverManager.getConnection(DriverManager.java:230)
 	at com.practica1.base.DatabaseConnection.getConnection(DatabaseConnection.java:135)
-	at com.practica1.DAO.VehicleDAO.findIdByType(VehicleDAO.java:145)
-	at com.practica1.DAO.VehicleDAO.create(VehicleDAO.java:19)
+	at com.practica1.dao.VehicleDao.findIdByType(VehicleDAO.java:145)
+	at com.practica1.dao.VehicleDao.create(VehicleDAO.java:19)
 	at com.practica1.base.Main.main(Main.java:25)
 Caused by: org.h2.jdbc.JdbcSQLNonTransientException: Error General : "org.h2.mvstore.MVStoreException: The file is locked: C:/DESARROLLO/fork/practicasFCT/concesionario_db.mv.db [2.3.232/7]"
 General error: "org.h2.mvstore.MVStoreException: The file is locked: C:/DESARROLLO/fork/practicasFCT/concesionario_db.mv.db [2.3.232/7]" [50000-232]
@@ -381,8 +381,8 @@ General error: "org.h2.mvstore.MVStoreException: The file is locked: C:/DESARROL
 	at java.sql/java.sql.DriverManager.getConnection(DriverManager.java:683)
 	at java.sql/java.sql.DriverManager.getConnection(DriverManager.java:230)
 	at com.practica1.base.DatabaseConnection.getConnection(DatabaseConnection.java:135)
-	at com.practica1.DAO.VehicleDAO.createType(VehicleDAO.java:64)
-	at com.practica1.DAO.VehicleDAO.create(VehicleDAO.java:25)
+	at com.practica1.dao.VehicleDao.createType(VehicleDAO.java:64)
+	at com.practica1.dao.VehicleDao.create(VehicleDAO.java:25)
 	at com.practica1.base.Main.main(Main.java:25)
 Caused by: org.h2.jdbc.JdbcSQLNonTransientException: Error General : "org.h2.mvstore.MVStoreException: The file is locked: C:/DESARROLLO/fork/practicasFCT/concesionario_db.mv.db [2.3.232/7]"
 General error: "org.h2.mvstore.MVStoreException: The file is locked: C:/DESARROLLO/fork/practicasFCT/concesionario_db.mv.db [2.3.232/7]" [50000-232]
@@ -417,8 +417,8 @@ General error: "org.h2.mvstore.MVStoreException: The file is locked: C:/DESARROL
 	at java.sql/java.sql.DriverManager.getConnection(DriverManager.java:683)
 	at java.sql/java.sql.DriverManager.getConnection(DriverManager.java:230)
 	at com.practica1.base.DatabaseConnection.getConnection(DatabaseConnection.java:135)
-	at com.practica1.DAO.VehicleDAO.findIdByType(VehicleDAO.java:145)
-	at com.practica1.DAO.VehicleDAO.create(VehicleDAO.java:19)
+	at com.practica1.dao.VehicleDao.findIdByType(VehicleDAO.java:145)
+	at com.practica1.dao.VehicleDao.create(VehicleDAO.java:19)
 	at com.practica1.base.Main.main(Main.java:26)
 Caused by: org.h2.jdbc.JdbcSQLNonTransientException: Error General : "org.h2.mvstore.MVStoreException: The file is locked: C:/DESARROLLO/fork/practicasFCT/concesionario_db.mv.db [2.3.232/7]"
 General error: "org.h2.mvstore.MVStoreException: The file is locked: C:/DESARROLLO/fork/practicasFCT/concesionario_db.mv.db [2.3.232/7]" [50000-232]
@@ -453,8 +453,8 @@ General error: "org.h2.mvstore.MVStoreException: The file is locked: C:/DESARROL
 	at java.sql/java.sql.DriverManager.getConnection(DriverManager.java:683)
 	at java.sql/java.sql.DriverManager.getConnection(DriverManager.java:230)
 	at com.practica1.base.DatabaseConnection.getConnection(DatabaseConnection.java:135)
-	at com.practica1.DAO.VehicleDAO.createType(VehicleDAO.java:64)
-	at com.practica1.DAO.VehicleDAO.create(VehicleDAO.java:25)
+	at com.practica1.dao.VehicleDao.createType(VehicleDAO.java:64)
+	at com.practica1.dao.VehicleDao.create(VehicleDAO.java:25)
 	at com.practica1.base.Main.main(Main.java:26)
 Caused by: org.h2.jdbc.JdbcSQLNonTransientException: Error General : "org.h2.mvstore.MVStoreException: The file is locked: C:/DESARROLLO/fork/practicasFCT/concesionario_db.mv.db [2.3.232/7]"
 General error: "org.h2.mvstore.MVStoreException: The file is locked: C:/DESARROLLO/fork/practicasFCT/concesionario_db.mv.db [2.3.232/7]" [50000-232]
@@ -489,8 +489,8 @@ General error: "org.h2.mvstore.MVStoreException: The file is locked: C:/DESARROL
 	at java.sql/java.sql.DriverManager.getConnection(DriverManager.java:683)
 	at java.sql/java.sql.DriverManager.getConnection(DriverManager.java:230)
 	at com.practica1.base.DatabaseConnection.getConnection(DatabaseConnection.java:135)
-	at com.practica1.DAO.VehicleDAO.findIdByType(VehicleDAO.java:145)
-	at com.practica1.DAO.VehicleDAO.create(VehicleDAO.java:19)
+	at com.practica1.dao.VehicleDao.findIdByType(VehicleDAO.java:145)
+	at com.practica1.dao.VehicleDao.create(VehicleDAO.java:19)
 	at com.practica1.base.Main.main(Main.java:27)
 Caused by: org.h2.jdbc.JdbcSQLNonTransientException: Error General : "org.h2.mvstore.MVStoreException: The file is locked: C:/DESARROLLO/fork/practicasFCT/concesionario_db.mv.db [2.3.232/7]"
 General error: "org.h2.mvstore.MVStoreException: The file is locked: C:/DESARROLLO/fork/practicasFCT/concesionario_db.mv.db [2.3.232/7]" [50000-232]
@@ -525,8 +525,8 @@ General error: "org.h2.mvstore.MVStoreException: The file is locked: C:/DESARROL
 	at java.sql/java.sql.DriverManager.getConnection(DriverManager.java:683)
 	at java.sql/java.sql.DriverManager.getConnection(DriverManager.java:230)
 	at com.practica1.base.DatabaseConnection.getConnection(DatabaseConnection.java:135)
-	at com.practica1.DAO.VehicleDAO.createType(VehicleDAO.java:64)
-	at com.practica1.DAO.VehicleDAO.create(VehicleDAO.java:25)
+	at com.practica1.dao.VehicleDao.createType(VehicleDAO.java:64)
+	at com.practica1.dao.VehicleDao.create(VehicleDAO.java:25)
 	at com.practica1.base.Main.main(Main.java:27)
 Caused by: org.h2.jdbc.JdbcSQLNonTransientException: Error General : "org.h2.mvstore.MVStoreException: The file is locked: C:/DESARROLLO/fork/practicasFCT/concesionario_db.mv.db [2.3.232/7]"
 General error: "org.h2.mvstore.MVStoreException: The file is locked: C:/DESARROLLO/fork/practicasFCT/concesionario_db.mv.db [2.3.232/7]" [50000-232]
@@ -561,8 +561,8 @@ General error: "org.h2.mvstore.MVStoreException: The file is locked: C:/DESARROL
 	at java.sql/java.sql.DriverManager.getConnection(DriverManager.java:683)
 	at java.sql/java.sql.DriverManager.getConnection(DriverManager.java:230)
 	at com.practica1.base.DatabaseConnection.getConnection(DatabaseConnection.java:135)
-	at com.practica1.DAO.VehicleDAO.findIdByType(VehicleDAO.java:145)
-	at com.practica1.DAO.VehicleDAO.create(VehicleDAO.java:39)
+	at com.practica1.dao.VehicleDao.findIdByType(VehicleDAO.java:145)
+	at com.practica1.dao.VehicleDao.create(VehicleDAO.java:39)
 	at com.practica1.base.Main.main(Main.java:28)
 Caused by: org.h2.jdbc.JdbcSQLNonTransientException: Error General : "org.h2.mvstore.MVStoreException: The file is locked: C:/DESARROLLO/fork/practicasFCT/concesionario_db.mv.db [2.3.232/7]"
 General error: "org.h2.mvstore.MVStoreException: The file is locked: C:/DESARROLLO/fork/practicasFCT/concesionario_db.mv.db [2.3.232/7]" [50000-232]
@@ -597,8 +597,8 @@ General error: "org.h2.mvstore.MVStoreException: The file is locked: C:/DESARROL
 	at java.sql/java.sql.DriverManager.getConnection(DriverManager.java:683)
 	at java.sql/java.sql.DriverManager.getConnection(DriverManager.java:230)
 	at com.practica1.base.DatabaseConnection.getConnection(DatabaseConnection.java:135)
-	at com.practica1.DAO.VehicleDAO.createType(VehicleDAO.java:64)
-	at com.practica1.DAO.VehicleDAO.create(VehicleDAO.java:46)
+	at com.practica1.dao.VehicleDao.createType(VehicleDAO.java:64)
+	at com.practica1.dao.VehicleDao.create(VehicleDAO.java:46)
 	at com.practica1.base.Main.main(Main.java:28)
 Caused by: org.h2.jdbc.JdbcSQLNonTransientException: Error General : "org.h2.mvstore.MVStoreException: The file is locked: C:/DESARROLLO/fork/practicasFCT/concesionario_db.mv.db [2.3.232/7]"
 General error: "org.h2.mvstore.MVStoreException: The file is locked: C:/DESARROLLO/fork/practicasFCT/concesionario_db.mv.db [2.3.232/7]" [50000-232]
@@ -633,8 +633,8 @@ General error: "org.h2.mvstore.MVStoreException: The file is locked: C:/DESARROL
 	at java.sql/java.sql.DriverManager.getConnection(DriverManager.java:683)
 	at java.sql/java.sql.DriverManager.getConnection(DriverManager.java:230)
 	at com.practica1.base.DatabaseConnection.getConnection(DatabaseConnection.java:135)
-	at com.practica1.DAO.VehicleDAO.findIdByType(VehicleDAO.java:145)
-	at com.practica1.DAO.VehicleDAO.create(VehicleDAO.java:39)
+	at com.practica1.dao.VehicleDao.findIdByType(VehicleDAO.java:145)
+	at com.practica1.dao.VehicleDao.create(VehicleDAO.java:39)
 	at com.practica1.base.Main.main(Main.java:29)
 Caused by: org.h2.jdbc.JdbcSQLNonTransientException: Error General : "org.h2.mvstore.MVStoreException: The file is locked: C:/DESARROLLO/fork/practicasFCT/concesionario_db.mv.db [2.3.232/7]"
 General error: "org.h2.mvstore.MVStoreException: The file is locked: C:/DESARROLLO/fork/practicasFCT/concesionario_db.mv.db [2.3.232/7]" [50000-232]
@@ -669,8 +669,8 @@ General error: "org.h2.mvstore.MVStoreException: The file is locked: C:/DESARROL
 	at java.sql/java.sql.DriverManager.getConnection(DriverManager.java:683)
 	at java.sql/java.sql.DriverManager.getConnection(DriverManager.java:230)
 	at com.practica1.base.DatabaseConnection.getConnection(DatabaseConnection.java:135)
-	at com.practica1.DAO.VehicleDAO.createType(VehicleDAO.java:64)
-	at com.practica1.DAO.VehicleDAO.create(VehicleDAO.java:46)
+	at com.practica1.dao.VehicleDao.createType(VehicleDAO.java:64)
+	at com.practica1.dao.VehicleDao.create(VehicleDAO.java:46)
 	at com.practica1.base.Main.main(Main.java:29)
 Caused by: org.h2.jdbc.JdbcSQLNonTransientException: Error General : "org.h2.mvstore.MVStoreException: The file is locked: C:/DESARROLLO/fork/practicasFCT/concesionario_db.mv.db [2.3.232/7]"
 General error: "org.h2.mvstore.MVStoreException: The file is locked: C:/DESARROLLO/fork/practicasFCT/concesionario_db.mv.db [2.3.232/7]" [50000-232]
@@ -705,8 +705,8 @@ General error: "org.h2.mvstore.MVStoreException: The file is locked: C:/DESARROL
 	at java.sql/java.sql.DriverManager.getConnection(DriverManager.java:683)
 	at java.sql/java.sql.DriverManager.getConnection(DriverManager.java:230)
 	at com.practica1.base.DatabaseConnection.getConnection(DatabaseConnection.java:135)
-	at com.practica1.DAO.VehicleDAO.findIdByType(VehicleDAO.java:145)
-	at com.practica1.DAO.VehicleDAO.create(VehicleDAO.java:39)
+	at com.practica1.dao.VehicleDao.findIdByType(VehicleDAO.java:145)
+	at com.practica1.dao.VehicleDao.create(VehicleDAO.java:39)
 	at com.practica1.base.Main.main(Main.java:30)
 Caused by: org.h2.jdbc.JdbcSQLNonTransientException: Error General : "org.h2.mvstore.MVStoreException: The file is locked: C:/DESARROLLO/fork/practicasFCT/concesionario_db.mv.db [2.3.232/7]"
 General error: "org.h2.mvstore.MVStoreException: The file is locked: C:/DESARROLLO/fork/practicasFCT/concesionario_db.mv.db [2.3.232/7]" [50000-232]
@@ -741,8 +741,8 @@ General error: "org.h2.mvstore.MVStoreException: The file is locked: C:/DESARROL
 	at java.sql/java.sql.DriverManager.getConnection(DriverManager.java:683)
 	at java.sql/java.sql.DriverManager.getConnection(DriverManager.java:230)
 	at com.practica1.base.DatabaseConnection.getConnection(DatabaseConnection.java:135)
-	at com.practica1.DAO.VehicleDAO.createType(VehicleDAO.java:64)
-	at com.practica1.DAO.VehicleDAO.create(VehicleDAO.java:46)
+	at com.practica1.dao.VehicleDao.createType(VehicleDAO.java:64)
+	at com.practica1.dao.VehicleDao.create(VehicleDAO.java:46)
 	at com.practica1.base.Main.main(Main.java:30)
 Caused by: org.h2.jdbc.JdbcSQLNonTransientException: Error General : "org.h2.mvstore.MVStoreException: The file is locked: C:/DESARROLLO/fork/practicasFCT/concesionario_db.mv.db [2.3.232/7]"
 General error: "org.h2.mvstore.MVStoreException: The file is locked: C:/DESARROLLO/fork/practicasFCT/concesionario_db.mv.db [2.3.232/7]" [50000-232]
@@ -777,7 +777,7 @@ General error: "org.h2.mvstore.MVStoreException: The file is locked: C:/DESARROL
 	at java.sql/java.sql.DriverManager.getConnection(DriverManager.java:683)
 	at java.sql/java.sql.DriverManager.getConnection(DriverManager.java:230)
 	at com.practica1.base.DatabaseConnection.getConnection(DatabaseConnection.java:135)
-	at com.practica1.DAO.CarDAO.findBylicensePlate(CarDAO.java:121)
+	at com.practica1.dao.CarDao.findBylicensePlate(CarDAO.java:121)
 	at com.practica1.base.Main.main(Main.java:32)
 Caused by: org.h2.jdbc.JdbcSQLNonTransientException: Error General : "org.h2.mvstore.MVStoreException: The file is locked: C:/DESARROLLO/fork/practicasFCT/concesionario_db.mv.db [2.3.232/7]"
 General error: "org.h2.mvstore.MVStoreException: The file is locked: C:/DESARROLLO/fork/practicasFCT/concesionario_db.mv.db [2.3.232/7]" [50000-232]

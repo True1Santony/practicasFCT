@@ -1,4 +1,4 @@
-package com.practica1.DAO;
+package com.practica1.dao;
 
 import com.practica1.base.DatabaseConnection;
 import com.practica1.model.Motorcycle;
@@ -7,7 +7,7 @@ import com.practica1.model.common.FuelType;
 import java.sql.*;
 import java.util.Optional;
 
-public class MotorcycleDAO {
+public class MotorcycleDao {
 
     public int create(Motorcycle motorcycle,int vehicleId) {
         String query = "INSERT INTO Motorcycle (id_concessionaire, engine_displacement, license_plate, brand, model, \"year\", fuel_type, vehicle_id) " +

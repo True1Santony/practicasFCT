@@ -1,4 +1,4 @@
-package com.practica1.DAO;
+package com.practica1.dao;
 
 import com.practica1.base.DatabaseConnection;
 import com.practica1.model.Car;
@@ -8,10 +8,10 @@ import com.practica1.model.Vehicle;
 import java.sql.*;
 import java.util.Optional;
 
-public class VehicleDAO {
+public class VehicleDao {
 
-    private static final CarDAO carService = new CarDAO();
-    private static final MotorcycleDAO motorcycleService = new MotorcycleDAO();
+    private static final CarDao carService = new CarDao();
+    private static final MotorcycleDao motorcycleService = new MotorcycleDao();
 
     public int create(Vehicle vehicle){
 

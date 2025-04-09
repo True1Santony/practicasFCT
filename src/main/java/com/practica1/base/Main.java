@@ -1,8 +1,8 @@
 package com.practica1.base;
 
-import com.practica1.DAO.CarDAO;
-import com.practica1.DAO.ConcessionaireDAO;
-import com.practica1.DAO.VehicleDAO;
+import com.practica1.dao.CarDao;
+import com.practica1.dao.ConcessionaireDao;
+import com.practica1.dao.VehicleDao;
 import com.practica1.model.Car;
 import com.practica1.model.Concessionaire;
 import com.practica1.model.Motorcycle;
@@ -11,9 +11,9 @@ import com.practica1.model.common.FuelType;
 
 public class Main {
 
-      static VehicleDAO vehicleService = new VehicleDAO();
-      static CarDAO carService = new CarDAO();
-      static ConcessionaireDAO concessionaireService = new ConcessionaireDAO();
+      static VehicleDao vehicleService = new VehicleDao();
+      static CarDao carService = new CarDao();
+      static ConcessionaireDao concessionaireService = new ConcessionaireDao();
 
     public static void main(String[] args)  {
 
@@ -44,7 +44,7 @@ public class Main {
        //Buscar y mostrar mensaje de vehículo no encontrado con matricula “5704GPN“
         String licensePlateToSearch = "5704GPN";
         vehicleService.findByLicensePlate(licensePlateToSearch).ifPresentOrElse(
-                vehicle -> vehicle.displayInformation(),
+                Vehicle::displayInformation,
                 () -> System.out.println("No se encontró ningún vehículo con la matrícula: " + licensePlateToSearch)
         );
 

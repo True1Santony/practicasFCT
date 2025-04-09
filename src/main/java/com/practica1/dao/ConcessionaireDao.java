@@ -1,4 +1,4 @@
-package com.practica1.DAO;
+package com.practica1.dao;
 
 import com.practica1.base.DatabaseConnection;
 import com.practica1.model.Car;
@@ -7,9 +7,9 @@ import com.practica1.model.Motorcycle;
 
 import java.sql.*;
 
-public class ConcessionaireDAO {
+public class ConcessionaireDao {
 
-    private static VehicleDAO vehicleService = new VehicleDAO();
+    private static VehicleDao vehicleService = new VehicleDao();
 
     public int create(Concessionaire concessionaire) {
         String query = "INSERT INTO Concessionaire (name) VALUES (?)";
