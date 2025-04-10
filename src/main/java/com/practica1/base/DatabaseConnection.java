@@ -11,7 +11,7 @@ public class DatabaseConnection {
     private static final String PASSWORD = "";
     private static final String FILEPATH = "./concesionario_db.mv.db";
 
-    public static void initializeDatabase() {
+    public void initializeDatabase() {
 
         deleteDatabaseFile(FILEPATH);
 
@@ -131,7 +131,7 @@ public class DatabaseConnection {
     }
 
 
-    public static Connection getConnection() throws SQLException {
+    public Connection getConnection() throws SQLException {
         return DriverManager.getConnection(URL, USER, PASSWORD);
     }
 }

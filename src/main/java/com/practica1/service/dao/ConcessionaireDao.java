@@ -11,10 +11,9 @@ public class ConcessionaireDao {
 
     private final VehicleDao vehicleService = new VehicleDao();
 
-    public int insert(Concessionaire concessionaire) {
+    public int insert(Concessionaire concessionaire, Connection connection) {
         String query = "INSERT INTO Concessionaire (name) VALUES (?)";
-        try (Connection connection = DatabaseConnection.getConnection();
-             PreparedStatement stmt = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
+        try (PreparedStatement stmt = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
 
             stmt.setString(1, concessionaire.getName());
 
@@ -33,10 +32,9 @@ public class ConcessionaireDao {
         return -1; // Si ocurrió un error, retornar -1
     }
 
-    public Concessionaire findById(int id) {
+    public Concessionaire findById(int id, Connection connection) {
         String query = "SELECT * FROM Concessionaire WHERE id = ?";
-        try (Connection connection = DatabaseConnection.getConnection();
-             PreparedStatement stmt = connection.prepareStatement(query)) {
+        try (PreparedStatement stmt = connection.prepareStatement(query)) {
 
             stmt.setInt(1, id);
             ResultSet resultSet = stmt.executeQuery();
@@ -54,16 +52,16 @@ public class ConcessionaireDao {
     }
 
 
-    public void infoConcessionareByLicencePlate(String licencePlate){
-        vehicleService.findByLicensePlate(licencePlate)
+    public void infoConcessionareByLicencePlate(String licencePlate, Connection connection){
+        vehicleService.findByLicensePlate(licencePlate, connection)
                 .ifPresent(vehicle -> {
                     if (vehicle instanceof Car) {
                         Car car = (Car) vehicle;
-                        findById(car.getConcessionaireId())
+                        findById(car.getConcessionaireId(), connection)
                                 .displayInformation();
                     } else if (vehicle instanceof Motorcycle) {
                         Motorcycle motorcycle = (Motorcycle) vehicle;
-                        findById(motorcycle.getConcessionaireId())
+                        findById(motorcycle.getConcessionaireId(), connection)
                                 .displayInformation();
                     } else {
                         System.out.println("El vehículo encontrado no es ni un coche ni una moto.");

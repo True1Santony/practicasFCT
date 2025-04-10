@@ -9,11 +9,10 @@ import java.util.Optional;
 
 public class MotorcycleDao {
 
-    public int create(Motorcycle motorcycle,int vehicleId) {
+    public int create(Motorcycle motorcycle,int vehicleId, Connection connection) {
         String query = "INSERT INTO Motorcycle (id_concessionaire, engine_displacement, license_plate, brand, model, \"year\", fuel_type, vehicle_id) " +
                 "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-        try (Connection connection = DatabaseConnection.getConnection();
-             PreparedStatement stmt = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
+        try (PreparedStatement stmt = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
 
             stmt.setInt(1,motorcycle.getConcessionaireId());
             stmt.setInt(2, motorcycle.getEngineDisplacement());
@@ -33,11 +32,10 @@ public class MotorcycleDao {
     }
 
 
-    public void update(Motorcycle motorcycle, int motorcycleId) {
+    public void update(Motorcycle motorcycle, int motorcycleId, Connection connection) {
         String query = "UPDATE Motorcycle SET engine_displacement = ?, license_plate = ?, brand = ?, model = ?, \"year\" = ?, fuel_type = ? WHERE id = ?";
 
-        try (Connection connection = DatabaseConnection.getConnection();
-             PreparedStatement stmt = connection.prepareStatement(query)) {
+        try (PreparedStatement stmt = connection.prepareStatement(query)) {
 
             stmt.setInt(1, motorcycle.getEngineDisplacement());
             stmt.setString(2, motorcycle.getLicensePlate());
@@ -59,11 +57,10 @@ public class MotorcycleDao {
         }
     }
 
-    public void deleteById(int id) {
+    public void deleteById(int id, Connection connection) {
         String query = "DELETE FROM Motorcycle WHERE id = ?";
 
-        try (Connection connection = DatabaseConnection.getConnection();
-             PreparedStatement stmt = connection.prepareStatement(query)) {
+        try (PreparedStatement stmt = connection.prepareStatement(query)) {
 
             stmt.setInt(1, id);
             int rowsDeleted = stmt.executeUpdate();
@@ -78,10 +75,9 @@ public class MotorcycleDao {
         }
     }
 
-    public Optional<Motorcycle> findBylicensePlate(String licensePlate) {
+    public Optional<Motorcycle> findBylicensePlate(String licensePlate, Connection connection) {
         String query = "SELECT * FROM Motorcycle WHERE license_plate = ?";
-        try (Connection connection = DatabaseConnection.getConnection();
-             PreparedStatement stmt = connection.prepareStatement(query)) {
+        try (PreparedStatement stmt = connection.prepareStatement(query)) {
 
             stmt.setString(1, licensePlate);
             ResultSet resultSet = stmt.executeQuery();
