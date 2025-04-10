@@ -1,6 +1,5 @@
 package com.practica1.service.dao;
 
-import com.practica1.base.DatabaseConnection;
 import com.practica1.model.Car;
 import com.practica1.model.common.FuelType;
 
@@ -11,15 +10,14 @@ import java.util.Optional;
 
 public class CarDao {
 
-    public int create(Car car, int vehicleId) {
+    public int create(Car car, int vehicleId, Connection connection) {
 
         car.setVehicleId(vehicleId);
 
         String query = "INSERT INTO Car (number_of_doors, license_plate, brand, model, \"year\", fuel_type, vehicle_id, id_concessionaire) " +
                 "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
-        try (Connection connection = DatabaseConnection.getConnection();
-             PreparedStatement stmt = connection.prepareStatement(query)) {
+        try (PreparedStatement stmt = connection.prepareStatement(query)) {
 
             stmt.setInt(1, car.getNumberOfDoors());
             stmt.setString(2, car.getLicensePlate());
@@ -39,11 +37,10 @@ public class CarDao {
         return 1;
     }
 
-    public void update(Car car, int carId) {
+    public void update(Car car, int carId, Connection connection) {
         String query = "UPDATE Car SET number_of_doors = ?, license_plate = ?, brand = ?, model = ?, \"year\" = ?, fuel_type = ?, vehicle_id = ? WHERE id = ?";
 
-        try (Connection connection = DatabaseConnection.getConnection();
-             PreparedStatement stmt = connection.prepareStatement(query)) {
+        try (PreparedStatement stmt = connection.prepareStatement(query)) {
 
             // Establecer los valores para cada campo del coche
             stmt.setInt(1, car.getNumberOfDoors());
@@ -68,11 +65,10 @@ public class CarDao {
         }
     }
 
-    public void deleteById(int id) {
+    public void deleteById(int id, Connection connection) {
         String query = "DELETE FROM Car WHERE id = ?";
 
-        try (Connection connection = DatabaseConnection.getConnection();
-             PreparedStatement stmt = connection.prepareStatement(query)) {
+        try (PreparedStatement stmt = connection.prepareStatement(query)) {
 
             stmt.setInt(1, id);
             int rowsDeleted = stmt.executeUpdate();
@@ -87,10 +83,9 @@ public class CarDao {
         }
     }
 
-    public Optional<Car> findBylicensePlate(String licensePlate) {
+    public Optional<Car> findBylicensePlate(String licensePlate, Connection connection) {
         String query = "SELECT * FROM Car WHERE license_plate = ?";
-        try (Connection connection = DatabaseConnection.getConnection();
-             PreparedStatement stmt = connection.prepareStatement(query)) {
+        try (PreparedStatement stmt = connection.prepareStatement(query)) {
 
             stmt.setString(1, licensePlate);
             ResultSet resultSet = stmt.executeQuery();
@@ -115,12 +110,11 @@ public class CarDao {
         return Optional.empty();
     }
 
-    public List<Car> findAll() {
+    public List<Car> findAll(Connection connection) {
         List<Car> cars = new ArrayList<>();
         String query = "SELECT * FROM Car";
 
-        try (Connection connection = DatabaseConnection.getConnection();
-             PreparedStatement stmt = connection.prepareStatement(query)) {
+        try (PreparedStatement stmt = connection.prepareStatement(query)) {
 
             ResultSet resultSet = stmt.executeQuery();
 
@@ -145,12 +139,11 @@ public class CarDao {
         return cars;  // Retornar la lista con todos los coches
     }
 
-    public List<Car> findByConcessionaireId(int concessionaireId) {
+    public List<Car> findByConcessionaireId(int concessionaireId, Connection connection) {
         List<Car> cars = new ArrayList<>();
         String query = "SELECT * FROM Car WHERE id_concessionaire = ?";
 
-        try (Connection connection = DatabaseConnection.getConnection();
-             PreparedStatement stmt = connection.prepareStatement(query)) {
+        try (PreparedStatement stmt = connection.prepareStatement(query)) {
 
             stmt.setInt(1, concessionaireId);  // Establecer el id del concesionario como parámetro
             ResultSet resultSet = stmt.executeQuery();
