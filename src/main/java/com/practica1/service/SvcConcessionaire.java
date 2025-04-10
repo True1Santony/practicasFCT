@@ -2,10 +2,10 @@ package com.practica1.service;
 
 import com.practica1.model.Concessionaire;
 import com.practica1.model.Vehicle;
-import com.practica1.service.common.DuplicateLicensePlateException;
-import com.practica1.service.common.EmptyLicensePlateException;
-import com.practica1.service.common.TypeNotFoundException;
-import com.practica1.service.common.VehicleNotFoundException;
+import com.practica1.service.common.exception.DuplicateLicensePlateException;
+import com.practica1.service.common.exception.EmptyLicensePlateException;
+import com.practica1.service.common.exception.TypeNotFoundException;
+import com.practica1.service.common.exception.VehicleNotFoundException;
 
 import java.util.ArrayList;
 import java.util.List;

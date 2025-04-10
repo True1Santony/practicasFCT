@@ -1,8 +1,8 @@
 package com.practica1.base;
 
-import com.practica1.dao.CarDao;
-import com.practica1.dao.ConcessionaireDao;
-import com.practica1.dao.VehicleDao;
+import com.practica1.service.dao.CarDao;
+import com.practica1.service.dao.ConcessionaireDao;
+import com.practica1.service.dao.VehicleDao;
 import com.practica1.model.Car;
 import com.practica1.model.Concessionaire;
 import com.practica1.model.Motorcycle;

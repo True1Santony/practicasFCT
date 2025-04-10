@@ -1,4 +1,4 @@
-package com.practica1.dao;
+package com.practica1.service.dao;
 
 import com.practica1.base.DatabaseConnection;
 import com.practica1.model.Car;

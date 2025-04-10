@@ -1,4 +1,4 @@
-package com.practica1.service.common;
+package com.practica1.service.common.exception;
 
 public class VehicleNotFoundException extends Exception{
     public VehicleNotFoundException(String licensePlate){
