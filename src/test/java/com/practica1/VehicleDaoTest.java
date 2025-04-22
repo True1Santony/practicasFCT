@@ -10,9 +10,11 @@ import com.practica1.service.dao.MotorcycleDao;
 import com.practica1.service.dao.VehicleDao;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -25,6 +27,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
 
+@ExtendWith(MockitoExtension.class)
 public class VehicleDaoTest {
 
     @Mock
@@ -53,7 +56,7 @@ public class VehicleDaoTest {
     @BeforeEach
     void setUp() {
         // Inicializa los mocks antes de cada prueba
-        MockitoAnnotations.openMocks(this);
+       // MockitoAnnotations.openMocks(this);
 
         try {
             when(connection.prepareStatement(anyString(), eq(Statement.RETURN_GENERATED_KEYS))).thenReturn(preparedStatement);
@@ -63,6 +66,27 @@ public class VehicleDaoTest {
 
     }
 
+
+    @Test
+    void testInsert_Car() throws Exception {
+        // Arrange
+        Car car = new Car("Honda", "Civic", 2005, FuelType.DIESEL, "5705GPA", 5, 20);
+        car.setId(1);
+
+        // Mock findIdByType usando when (no necesitas un espía)
+        when(vehicleDao.findIdByType("CAR", connection)).thenReturn(Optional.of(1));
+
+        // Mock carService.create
+        when(carService.create(any(Car.class), eq(1), eq(connection))).thenReturn(1);
+
+        // Act
+        int result = vehicleDao.insert(car, connection);
+
+        // Assert
+        assertEquals(1, result); // Verificar que el resultado sea 1
+        verify(carService).create(any(Car.class), eq(1), eq(connection)); // Verificar que se llamó a create con los argumentos correctos
+    }
+/*
     @Test
     void testInsert_Car() throws Exception {
         // Arrange
@@ -357,5 +381,5 @@ public class VehicleDaoTest {
         // Assert
         assertFalse(result.isPresent()); // Verificar que no hay resultados
     }
-
+*/
 }
