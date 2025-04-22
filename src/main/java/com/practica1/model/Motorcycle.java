@@ -16,7 +16,6 @@ public class Motorcycle extends Vehicle{
     }
 
     public Motorcycle() {
-
     }
 
     public int getVehicleId() {
@@ -35,18 +34,12 @@ public class Motorcycle extends Vehicle{
         this.concessionaireId = concessionaireId;
     }
 
-    @Override
-    public void displayInformation() throws NullPointerException{
-        System.out.println("-------------------------------");
-        System.out.println("Motorcycle Information: ");
-        System.out.println("ID: " + getId());
-        System.out.println("Brand: " + getBrand());
-        System.out.println("Licence plate: " + getLicensePlate());
-        System.out.println("Model: " + getModel());
-        System.out.println("Year: " + getYear());
-        System.out.println("Fuel Type: " + getFuelType());
-        System.out.println("Engine Displacement: " + engineDisplacement + " cc");
-        System.out.println("-------------------------------");
+    public int getEngineDisplacement() {
+        return engineDisplacement;
+    }
+
+    public void setEngineDisplacement(int engineDisplacement) {
+        this.engineDisplacement = engineDisplacement;
     }
 
     @Override
@@ -59,11 +52,17 @@ public class Motorcycle extends Vehicle{
         this.id = id;
     }
 
-    public int getEngineDisplacement() {
-        return engineDisplacement;
-    }
-
-    public void setEngineDisplacement(int engineDisplacement) {
-        this.engineDisplacement = engineDisplacement;
+    @Override
+    public void displayInformation() throws NullPointerException{
+        System.out.println("-------------------------------");
+        System.out.println("Motorcycle Information: ");
+        System.out.println("ID: " + getId());
+        System.out.println("Brand: " + getBrand());
+        System.out.println("Licence plate: " + getLicensePlate());
+        System.out.println("Model: " + getModel());
+        System.out.println("Year: " + getYear());
+        System.out.println("Fuel Type: " + getFuelType());
+        System.out.println("Engine Displacement: " + engineDisplacement + " cc");
+        System.out.println("-------------------------------");
     }
 }

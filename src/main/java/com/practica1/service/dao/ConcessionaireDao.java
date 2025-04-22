@@ -1,71 +1,11 @@
 package com.practica1.service.dao;
 
-import com.practica1.base.DatabaseConnection;
-import com.practica1.model.Car;
 import com.practica1.model.Concessionaire;
-import com.practica1.model.Motorcycle;
 
-import java.sql.*;
+import java.sql.Connection;
 
-public class ConcessionaireDao {
-
-    private final VehicleDao vehicleService = new VehicleDao();
-
-    public int insert(Concessionaire concessionaire, Connection connection) {
-        String query = "INSERT INTO Concessionaire (name) VALUES (?)";
-        try (PreparedStatement stmt = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
-
-            stmt.setString(1, concessionaire.getName());
-
-            stmt.executeUpdate();
-
-            // Obtener el id autogenerado
-            try (ResultSet generatedKeys = stmt.getGeneratedKeys()) {
-                if (generatedKeys.next()) {
-                    concessionaire.setId(generatedKeys.getInt(1)); //ID generado al objeto Concessionaire
-                    return concessionaire.getId();
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return -1; // Si ocurrió un error, retornar -1
-    }
-
-    public Concessionaire findById(int id, Connection connection) {
-        String query = "SELECT * FROM Concessionaire WHERE id = ?";
-        try (PreparedStatement stmt = connection.prepareStatement(query)) {
-
-            stmt.setInt(1, id);
-            ResultSet resultSet = stmt.executeQuery();
-
-            if (resultSet.next()) {
-                Concessionaire concessionaire = new Concessionaire();
-                concessionaire.setId(resultSet.getInt("id"));
-                concessionaire.setName(resultSet.getString("name"));
-                return concessionaire;
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return null; // Si no se encuentra el concesionario, retornar null
-    }
-
-
-    public void infoConcessionareByLicencePlate(String licencePlate, Connection connection){
-        vehicleService.findByLicensePlate(licencePlate, connection)
-                .ifPresent(vehicle -> {
-                    if (vehicle instanceof Car) {
-                        Car car = (Car) vehicle;
-                        findById(car.getConcessionaireId(), connection)
-                                .displayInformation();
-                    } else if (vehicle instanceof Motorcycle) {
-                        Motorcycle motorcycle = (Motorcycle) vehicle;
-                        findById(motorcycle.getConcessionaireId(), connection)
-                                .displayInformation();
-                    } else {
-                        System.out.println("El vehículo encontrado no es ni un coche ni una moto.");
-                    }
-                });
-    }
+public interface ConcessionaireDao {
+    int insert(Concessionaire concessionaire);
+    Concessionaire findById(int id);
+    void infoConcessionareByLicencePlate(String licencePlate);
 }

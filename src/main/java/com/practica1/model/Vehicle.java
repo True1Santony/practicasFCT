@@ -19,7 +19,6 @@ public abstract class Vehicle {
     }
 
     public Vehicle() {
-
     }
 
     public int getId() {
