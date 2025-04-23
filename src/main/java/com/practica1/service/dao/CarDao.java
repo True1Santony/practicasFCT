@@ -12,4 +12,6 @@ public interface CarDao {
     Optional<Car> findByLicensePlate(String licensePlate);
     List<Car> findAll();
     List<Car> findByConcessionaireId(int concessionaireId);
+
+    Optional <List<Car>> findByVehicleId(int id);
 }

@@ -4,9 +4,11 @@ import com.practica1.base.DatabaseConnection;
 import com.practica1.model.Car;
 import com.practica1.model.Concessionaire;
 import com.practica1.model.Motorcycle;
+import org.springframework.stereotype.Repository;
 
 import java.sql.*;
 
+@Repository
 public class ConcessionaireDaoImpl implements ConcessionaireDao {
 
     private final VehicleDao vehicleService;

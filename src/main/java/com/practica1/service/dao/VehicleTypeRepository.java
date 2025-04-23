@@ -1,10 +1,12 @@
 package com.practica1.service.dao;
 
 import com.practica1.base.DatabaseConnection;
+import org.springframework.stereotype.Repository;
 
 import java.sql.*;
 import java.util.Optional;
 
+@Repository
 public class VehicleTypeRepository {
 
     private final DatabaseConnection databaseConnection;

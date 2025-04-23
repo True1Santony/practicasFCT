@@ -1,9 +1,10 @@
 package com.practica1.base;
 
-import java.io.File;
-import java.sql.*;
-import java.util.Scanner;
+import org.springframework.stereotype.Service;
 
+import java.sql.*;
+
+@Service
 public class DatabaseConnectionImpl implements DatabaseConnection {
 
     private static final String URL = "jdbc:h2:file:./concesionario_db";

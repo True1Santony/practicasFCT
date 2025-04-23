@@ -3,10 +3,14 @@ package com.practica1.service.dao;
 import com.practica1.base.DatabaseConnection;
 import com.practica1.model.Motorcycle;
 import com.practica1.model.common.FuelType;
+import org.springframework.stereotype.Repository;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
+@Repository
 public class MotorcycleDaoImpl implements MotorcycleDao {
 
     private final DatabaseConnection databaseConnection;
@@ -109,5 +113,66 @@ public class MotorcycleDaoImpl implements MotorcycleDao {
         }
         return Optional.empty();
 
+    }
+
+    @Override
+    public List<Motorcycle> findAll() {
+        List<Motorcycle> motorcycles = new ArrayList<>();
+        String query = "SELECT * FROM Motorcycle";
+
+        try (PreparedStatement stmt = databaseConnection.getConnection().prepareStatement(query)) {
+
+            ResultSet resultSet = stmt.executeQuery();
+
+            while (resultSet.next()) {
+                Motorcycle motorcycle = new Motorcycle();
+                motorcycle.setId(resultSet.getInt("id"));
+                motorcycle.setEngineDisplacement(resultSet.getInt("engine_displacement"));
+                motorcycle.setLicensePlate(resultSet.getString("license_plate"));
+                motorcycle.setBrand(resultSet.getString("brand"));
+                motorcycle.setModel(resultSet.getString("model"));
+                motorcycle.setYear(resultSet.getInt("year"));
+                motorcycle.setFuelType(FuelType.valueOf(resultSet.getString("fuel_type")));
+                motorcycle.setVehicleId(resultSet.getInt("vehicle_id"));
+                motorcycle.setConcessionaireId(resultSet.getInt("id_concessionaire"));
+
+                motorcycles.add(motorcycle);  // Añadir el coche a la lista
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return motorcycles;  // Retornar la lista con todos los coches
+    }
+
+    @Override
+    public Optional<List<Motorcycle>> findByVehicleId(int id) {
+        List<Motorcycle> motorcycles = new ArrayList<>();
+        String query = "SELECT * FROM Motorcycle WHERE vehicle_id = ?";
+
+        try (PreparedStatement stmt = databaseConnection.getConnection().prepareStatement(query)) {
+
+            stmt.setInt(1, id);
+            ResultSet resultSet = stmt.executeQuery();
+
+            while (resultSet.next()) {
+                Motorcycle motorcycle = new Motorcycle();
+                motorcycle.setId(resultSet.getInt("id"));
+                motorcycle.setEngineDisplacement(resultSet.getInt("engine_displacement"));
+                motorcycle.setLicensePlate(resultSet.getString("license_plate"));
+                motorcycle.setBrand(resultSet.getString("brand"));
+                motorcycle.setModel(resultSet.getString("model"));
+                motorcycle.setYear(resultSet.getInt("year"));
+                motorcycle.setFuelType(FuelType.valueOf(resultSet.getString("fuel_type")));
+                motorcycle.setVehicleId(resultSet.getInt("vehicle_id"));
+                motorcycle.setConcessionaireId(resultSet.getInt("id_concessionaire"));
+
+                motorcycles.add(motorcycle);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return Optional.ofNullable(motorcycles.isEmpty() ? null : motorcycles);
     }
 }
