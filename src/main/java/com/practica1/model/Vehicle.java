@@ -1,7 +1,18 @@
 package com.practica1.model;
 
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.practica1.model.common.FuelType;
 
+@JsonTypeInfo(
+        use = JsonTypeInfo.Id.NAME,
+        include = JsonTypeInfo.As.PROPERTY,
+        property = "type" // <--- Este campo debe venir en el JSON
+)
+@JsonSubTypes({
+        @JsonSubTypes.Type(value = Car.class, name = "car"),
+        @JsonSubTypes.Type(value = Motorcycle.class, name = "motorcycle")
+})
 public abstract class Vehicle {
     private int id;
     private String brand;

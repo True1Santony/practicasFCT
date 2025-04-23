@@ -13,4 +13,5 @@ public interface VehicleDao {
     Optional<Vehicle> findByLicensePlate(String licensePlate);
     List<Vehicle> getAll();
     List<Vehicle> getById(int id) throws VehicleNotFoundException;
+    List<Vehicle> filter(Vehicle filter);
 }

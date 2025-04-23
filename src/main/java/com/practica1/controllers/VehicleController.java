@@ -3,10 +3,7 @@ package com.practica1.controllers;
 import com.practica1.model.Vehicle;
 import com.practica1.service.dao.VehicleDao;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -29,4 +26,29 @@ public class VehicleController {
     public ResponseEntity<List<Vehicle>> getbyId(@PathVariable("id") int id) {
         return ResponseEntity.ok(vehicleDaoSerice.getById(id));
     }
+
+    @PostMapping("/filter")
+    public List<Vehicle> filter(@RequestBody Vehicle filter) {
+        return vehicleDaoSerice.filter(filter);
+    }
+
+    @PostMapping("/insert")
+    public ResponseEntity<String> insertVehicle(@RequestBody Vehicle vehicle) {
+        int result = vehicleDaoSerice.insert(vehicle);
+        return result != -1 ? ResponseEntity.ok("Vehículo insertado correctamente")
+                : ResponseEntity.badRequest().body("Error al insertar el vehículo");
+    }
+
+    @PutMapping("/update/{licensePlate}")
+    public ResponseEntity<String> updateVehicle(@PathVariable("licensePlate") String licensePlate, @RequestBody Vehicle vehicle) {
+        vehicleDaoSerice.update(licensePlate, vehicle);
+        return ResponseEntity.ok("Vehículo actualizado correctamente");
+    }
+
+    @DeleteMapping("/delete/{licensePlate}")
+    public ResponseEntity<String> deleteVehicle(@PathVariable("licensePlate") String licensePlate) {
+        vehicleDaoSerice.deleteByLicensePlate(licensePlate);
+        return ResponseEntity.ok("Vehículo eliminado correctamente");
+    }
+
 }

@@ -65,6 +65,7 @@ public class VehicleDaoImpl implements VehicleDao{
         Optional<Motorcycle> motorcycle = motorcycleService.findByLicensePlate(licensePlate);
 
         if (car.isPresent()){
+            validateCar((Car) vehicle);
             carService.update((Car)vehicle, car.get().getId());
         } else if (motorcycle.isPresent()){
             motorcycleService.update((Motorcycle)vehicle, motorcycle.get().getId());
@@ -128,6 +129,51 @@ public class VehicleDaoImpl implements VehicleDao{
         }
 
         throw new VehicleNotFoundException(id);
+    }
+
+    @Override
+    public List<Vehicle> filter(Vehicle filter) {
+        List<Vehicle> allVehicles = getAll();
+
+        return allVehicles.stream()
+                .filter(vehicle -> {
+                    // Filtro para coches
+                    if (filter instanceof Car && vehicle instanceof Car) {
+                        Car filterCar = (Car) filter;
+                        Car car = (Car) vehicle;
+                        return (filterCar.getBrand() == null || filterCar.getBrand().equalsIgnoreCase(car.getBrand())) &&
+                                (filterCar.getModel() == null || filterCar.getModel().equalsIgnoreCase(car.getModel())) &&
+                                (filterCar.getLicensePlate() == null || filterCar.getLicensePlate().equalsIgnoreCase(car.getLicensePlate())) &&
+                                (filterCar.getNumberOfDoors() == 0 || filterCar.getNumberOfDoors() == car.getNumberOfDoors());
+                    }
+
+                    // Filtro para motos
+                    if (filter instanceof Motorcycle && vehicle instanceof Motorcycle) {
+                        Motorcycle filterMoto = (Motorcycle) filter;
+                        Motorcycle moto = (Motorcycle) vehicle;
+                        return (filterMoto.getBrand() == null || filterMoto.getBrand().equalsIgnoreCase(moto.getBrand())) &&
+                                (filterMoto.getModel() == null || filterMoto.getModel().equalsIgnoreCase(moto.getModel())) &&
+                                (filterMoto.getLicensePlate() == null || filterMoto.getLicensePlate().equalsIgnoreCase(moto.getLicensePlate())) &&
+                                (filterMoto.getEngineDisplacement() == 0 || filterMoto.getEngineDisplacement() == moto.getEngineDisplacement());
+                    }
+
+                    // Si el tipo no coincide, no lo incluimos
+                    return false;
+                })
+                .toList();
+    }
+
+    private void validateCar(Car car) {
+        if (car.getLicensePlate() == null || car.getLicensePlate().isBlank()) {
+            throw new IllegalArgumentException("La matrícula no puede estar vacía.");
+        }
+        if (car.getNumberOfDoors() <= 0) {
+            throw new IllegalArgumentException("El número de puertas debe ser mayor que 0.");
+        }
+        if (car.getFuelType() == null) {
+            throw new IllegalArgumentException("El tipo de combustible no puede ser nulo.");
+        }
+
     }
 
 }

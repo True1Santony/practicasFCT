@@ -3,6 +3,8 @@ package com.practica1.service.dao;
 import com.practica1.base.DatabaseConnection;
 import com.practica1.model.Car;
 import com.practica1.model.common.FuelType;
+import com.practica1.service.common.exception.DuplicateLicensePlateException;
+import org.h2.jdbc.JdbcSQLIntegrityConstraintViolationException;
 import org.springframework.stereotype.Repository;
 
 import java.sql.*;
@@ -40,7 +42,11 @@ public class CarDaoImpl implements CarDao{
             stmt.executeUpdate();
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            if (e.getMessage().contains("license_plate")) {
+                throw new DuplicateLicensePlateException(car.getLicensePlate());
+            } else {
+                e.printStackTrace();  // Si no es un error de matrícula duplicada, lo puedes manejar de otra forma
+            }
             return -1;
         }
         return 1;
