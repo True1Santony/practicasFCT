@@ -3,9 +3,14 @@ package com.practica1.service.dao;
 import com.practica1.model.Car;
 import com.practica1.model.Motorcycle;
 import com.practica1.model.Vehicle;
+import com.practica1.service.common.exception.VehicleNotFoundException;
+import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
+@Service
 public class VehicleDaoImpl implements VehicleDao{
 
     private CarDao carService;
@@ -92,6 +97,37 @@ public class VehicleDaoImpl implements VehicleDao{
         }
 
         return Optional.empty();
+    }
+
+    @Override
+    public List<Vehicle> getAll() {
+        List<Car> cars = carService.findAll();
+        List<Motorcycle> motorcycles = motorcycleService.findAll();
+
+        List<Vehicle> vehicles = new ArrayList<>();
+        vehicles.addAll(cars);
+        vehicles.addAll(motorcycles);
+
+        return vehicles;
+    }
+
+    @Override
+    public List<Vehicle> getById(int id) throws VehicleNotFoundException {
+        List<Vehicle> vehicles = new ArrayList<>();
+
+        Optional<List<Car>> carOptional = carService.findByVehicleId(id);
+        if (carOptional.isPresent()) {
+            vehicles.addAll(carOptional.get());
+            return vehicles;
+        }
+
+        Optional<List<Motorcycle>> motorcycleOptional = motorcycleService.findByVehicleId(id);
+        if (motorcycleOptional.isPresent()) {
+            vehicles.addAll(motorcycleOptional.get());
+            return vehicles;
+        }
+
+        throw new VehicleNotFoundException(id);
     }
 
 }
