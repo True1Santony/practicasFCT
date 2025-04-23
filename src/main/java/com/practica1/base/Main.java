@@ -9,7 +9,6 @@ import com.practica1.model.common.FuelType;
 
 import java.io.File;
 import java.sql.SQLException;
-import java.util.Scanner;
 
 public class Main {
 
@@ -75,39 +74,11 @@ public class Main {
             return;
         }
 
-        // Preguntar al usuario si quiere eliminar el archivo
-        Scanner scanner = new Scanner(System.in);
-        int userChoice = -1; // Valor inicial fuera del rango de opciones válidas
-
-        // Bucle que continuará hasta que el usuario ingrese una opción válida
-        while (userChoice != 1 && userChoice != 2) {
-            System.out.println("¿Estás seguro de que quieres eliminar el archivo de la base de datos?");
-            System.out.println("1: Sí, eliminar.");
-            System.out.println("2: No, cancelar.");
-
-            // Comprobar que la entrada es un número entero
-            if (scanner.hasNextInt()) {
-                userChoice = scanner.nextInt();
-                if (userChoice == 1) {
-                    // Intentamos eliminar el archivo
-                    if (dbFile.delete()) {
-                        System.out.println("El archivo ha sido eliminado correctamente.");
-                    } else {
-                        System.out.println("Hubo un error al intentar eliminar el archivo.");
-                    }
-                } else if (userChoice == 2) {
-                    System.out.println("Operación cancelada. El archivo no fue eliminado.");
-                } else {
-                    System.out.println("Opción no válida. Por favor ingrese 1 o 2.");
-                }
-            } else {
-                // Si la entrada no es un número entero
-                System.out.println("Entrada no válida. Por favor ingrese un número entero (1 o 2).");
-                scanner.next(); // Limpiar el buffer del scanner
-            }
+        // Intentamos eliminar el archivo
+        if (dbFile.delete()) {
+            System.out.println("El archivo de la base de datos ha sido eliminado correctamente.");
+        } else {
+            System.out.println("Hubo un error al intentar eliminar el archivo de la base de datos.");
         }
-
-        // Cerrar el scanner
-        scanner.close();
     }
 }

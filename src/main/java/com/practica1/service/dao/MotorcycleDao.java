@@ -2,7 +2,6 @@ package com.practica1.service.dao;
 
 import com.practica1.model.Motorcycle;
 
-import java.sql.Connection;
 import java.util.Optional;
 
 public interface MotorcycleDao {
