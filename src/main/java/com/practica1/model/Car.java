@@ -6,12 +6,12 @@ import java.io.Serializable;
 
 public class Car extends Vehicle implements Serializable {
 
-    private int id;
-    private int vehicleId;
-    private int concessionaireId;
-    private int numberOfDoors;
+    private Integer id;
+    private Integer vehicleId;
+    private Integer concessionaireId;
+    private Integer numberOfDoors;
 
-    public Car(String brand, String model, int year, FuelType fuelType, String licensePlate, int numbrerOfDoors, int concessionaireId) {
+    public Car(String brand, String model, Integer year, FuelType fuelType, String licensePlate, Integer numbrerOfDoors, Integer concessionaireId) {
         super(brand, model, year, fuelType,licensePlate);
         this.numberOfDoors = numbrerOfDoors;
         this.concessionaireId = concessionaireId;
@@ -37,36 +37,36 @@ public class Car extends Vehicle implements Serializable {
     }
 
     @Override
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setVehicleId(int vehicleId) {
+    public void setVehicleId(Integer vehicleId) {
         this.vehicleId = vehicleId;
     }
 
-    public int getConcessionaireId() {
+    public Integer getConcessionaireId() {
         return concessionaireId;
     }
 
-    public void setConcessionaireId(int concessionaireId) {
+    public void setConcessionaireId(Integer concessionaireId) {
         this.concessionaireId = concessionaireId;
     }
 
     @Override
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
-    public int getNumberOfDoors() {
+    public Integer getNumberOfDoors() {
         return numberOfDoors;
     }
 
-    public void setNumberOfDoors(int numberOfDoors) {
+    public void setNumberOfDoors(Integer numberOfDoors) {
         this.numberOfDoors = numberOfDoors;
     }
 
-    public int getVehicleId() {
+    public Integer getVehicleId() {
         return vehicleId;
     }
 }

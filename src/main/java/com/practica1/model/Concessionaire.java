@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 public class Concessionaire implements Serializable {
 
-    private int id;
+    private Integer id;
     private String name;
 
     public Concessionaire() {

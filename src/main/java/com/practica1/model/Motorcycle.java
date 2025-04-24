@@ -6,12 +6,12 @@ import java.io.Serializable;
 
 public class Motorcycle extends Vehicle implements Serializable {
 
-    private int id;
-    private int vehicleId;
-    private int concessionaireId;
-    private int engineDisplacement;// Cilindrada del motor
+    private Integer id;
+    private Integer vehicleId;
+    private Integer concessionaireId;
+    private Integer engineDisplacement;// Cilindrada del motor
 
-    public Motorcycle(String brand, String model, int year, FuelType fuelType, String licensePlate, int engineDisplacement, int concessionaireId) {
+    public Motorcycle(String brand, String model, Integer year, FuelType fuelType, String licensePlate, Integer engineDisplacement, Integer concessionaireId) {
         super(brand, model, year, fuelType, licensePlate);
         this.engineDisplacement = engineDisplacement;
         this.concessionaireId = concessionaireId;
@@ -20,37 +20,37 @@ public class Motorcycle extends Vehicle implements Serializable {
     public Motorcycle() {
     }
 
-    public int getVehicleId() {
+    public Integer getVehicleId() {
         return vehicleId;
     }
 
-    public void setVehicleId(int vehicleId) {
+    public void setVehicleId(Integer vehicleId) {
         this.vehicleId = vehicleId;
     }
 
-    public int getConcessionaireId() {
+    public Integer getConcessionaireId() {
         return concessionaireId;
     }
 
-    public void setConcessionaireId(int concessionaireId) {
+    public void setConcessionaireId(Integer concessionaireId) {
         this.concessionaireId = concessionaireId;
     }
 
-    public int getEngineDisplacement() {
+    public Integer getEngineDisplacement() {
         return engineDisplacement;
     }
 
-    public void setEngineDisplacement(int engineDisplacement) {
+    public void setEngineDisplacement(Integer engineDisplacement) {
         this.engineDisplacement = engineDisplacement;
     }
 
     @Override
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
     @Override
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

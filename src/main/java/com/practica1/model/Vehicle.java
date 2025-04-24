@@ -16,14 +16,14 @@ import java.io.Serializable;
         @JsonSubTypes.Type(value = Motorcycle.class, name = "motorcycle")
 })
 public abstract class Vehicle implements Serializable {
-    private int id;
+    private Integer id;
     private String brand;
     private String model;
-    private int year;
+    private Integer year;
     private FuelType fuelType;
     private String licensePlate;
 
-    public Vehicle(String brand, String model, int year, FuelType fuelType, String licensePlate) {
+    public Vehicle(String brand, String model, Integer year, FuelType fuelType, String licensePlate) {
         this.brand = brand;
         this.model = model;
         this.year = year;
@@ -34,11 +34,11 @@ public abstract class Vehicle implements Serializable {
     public Vehicle() {
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -68,11 +68,11 @@ public abstract class Vehicle implements Serializable {
         this.model = model;
     }
 
-    public int getYear() {
+    public Integer getYear() {
         return year;
     }
 
-    public void setYear(int year) {
+    public void setYear(Integer year) {
         this.year = year;
     }
 

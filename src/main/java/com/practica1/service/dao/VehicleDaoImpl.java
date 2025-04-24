@@ -143,19 +143,29 @@ public class VehicleDaoImpl implements VehicleDao{
                     if (filter instanceof Car && vehicle instanceof Car) {
                         Car filterCar = (Car) filter;
                         Car car = (Car) vehicle;
-                        return (filterCar.getBrand() == null || filterCar.getBrand().equalsIgnoreCase(car.getBrand())) &&
+                        return (filterCar.getId() == null || filterCar.getId().equals(car.getId())) &&
+                                (filterCar.getBrand() == null || filterCar.getBrand().equalsIgnoreCase(car.getBrand())) &&
                                 (filterCar.getModel() == null || filterCar.getModel().equalsIgnoreCase(car.getModel())) &&
+                                (filterCar.getYear() == null || filterCar.getYear().equals(car.getYear())) &&
+                                (filterCar.getFuelType() == null || filterCar.getFuelType().equals(car.getFuelType())) &&
+                                (filterCar.getVehicleId() == null || filterCar.getVehicleId().equals(car.getVehicleId())) &&
                                 (filterCar.getLicensePlate() == null || filterCar.getLicensePlate().equalsIgnoreCase(car.getLicensePlate())) &&
-                                (filterCar.getNumberOfDoors() == 0 || filterCar.getNumberOfDoors() == car.getNumberOfDoors());
+                                (filterCar.getNumberOfDoors() == null || filterCar.getNumberOfDoors().equals(car.getNumberOfDoors())) &&
+                                (filterCar.getConcessionaireId() == null || filterCar.getConcessionaireId().equals(car.getConcessionaireId()));
                     }
 
                     if (filter instanceof Motorcycle && vehicle instanceof Motorcycle) {
                         Motorcycle filterMoto = (Motorcycle) filter;
                         Motorcycle moto = (Motorcycle) vehicle;
-                        return (filterMoto.getBrand() == null || filterMoto.getBrand().equalsIgnoreCase(moto.getBrand())) &&
+                        return (filterMoto.getId() == null || filterMoto.getId().equals(moto.getId())) &&
+                                (filterMoto.getBrand() == null || filterMoto.getBrand().equalsIgnoreCase(moto.getBrand())) &&
+                                (filterMoto.getYear() == null || filterMoto.getYear().equals(moto.getYear())) &&
                                 (filterMoto.getModel() == null || filterMoto.getModel().equalsIgnoreCase(moto.getModel())) &&
+                                (filterMoto.getFuelType() == null || filterMoto.getFuelType().equals(moto.getFuelType())) &&
+                                (filterMoto.getVehicleId() == null || filterMoto.getVehicleId().equals(moto.getVehicleId())) &&
                                 (filterMoto.getLicensePlate() == null || filterMoto.getLicensePlate().equalsIgnoreCase(moto.getLicensePlate())) &&
-                                (filterMoto.getEngineDisplacement() == 0 || filterMoto.getEngineDisplacement() == moto.getEngineDisplacement());
+                                (filterMoto.getEngineDisplacement() == null || filterMoto.getEngineDisplacement().equals(moto.getEngineDisplacement())) &&
+                                (filterMoto.getConcessionaireId() == null || filterMoto.getConcessionaireId().equals(moto.getConcessionaireId()));
                     }
 
                     return false;
