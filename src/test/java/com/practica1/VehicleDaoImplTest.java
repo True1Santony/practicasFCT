@@ -120,6 +120,7 @@ public class VehicleDaoImplTest {
     void testUpdateCar() {
         // Arrange
         Car existingCar = new Car("Honda", "Civic", 2005, FuelType.DIESEL, "5705GPA", 5, 1);
+        existingCar.setId(1);
         Car updatedCar = new Car("Honda", "Accord", 2020, FuelType.GASOLINE, "5705GPA", 5, 1);
         when(carService.findByLicensePlate("5705GPA")).thenReturn(Optional.of(existingCar));
 
@@ -135,6 +136,7 @@ public class VehicleDaoImplTest {
     void testUpdateMotorcycle() {
         // Arrange
         Motorcycle existingMotorcycle = new Motorcycle("Yamaha", "AMC", 2018, null, "4654ASD", 600, 1);
+        existingMotorcycle.setId(1);
         Motorcycle updatedMotorcycle = new Motorcycle("Yamaha", "R1", 2022, null, "4654ASD", 1000, 1);
         when(motorcycleService.findByLicensePlate("4654ASD")).thenReturn(Optional.of(existingMotorcycle));
 
@@ -150,6 +152,7 @@ public class VehicleDaoImplTest {
     void testDeleteByLicensePlateCar() {
         // Arrange
         Car car = new Car("Honda", "Civic", 2005, null, "5705GPA", 5, 1);
+        car.setId(1);
         when(carService.findByLicensePlate("5705GPA")).thenReturn(Optional.of(car));
 
         // Act
@@ -164,6 +167,7 @@ public class VehicleDaoImplTest {
     void testDeleteByLicensePlateMotorcycle() {
         // Arrange
         Motorcycle motorcycle = new Motorcycle("Yamaha", "AMC", 2018, null, "4654ASD", 600, 1);
+        motorcycle.setId(1);
         when(motorcycleService.findByLicensePlate("4654ASD")).thenReturn(Optional.of(motorcycle));
 
         // Act

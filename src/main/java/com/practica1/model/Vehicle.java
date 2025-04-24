@@ -9,7 +9,7 @@ import java.io.Serializable;
 @JsonTypeInfo(
         use = JsonTypeInfo.Id.NAME,
         include = JsonTypeInfo.As.PROPERTY,
-        property = "type" // <--- Este campo debe venir en el JSON
+        property = "type"
 )
 @JsonSubTypes({
         @JsonSubTypes.Type(value = Car.class, name = "car"),
