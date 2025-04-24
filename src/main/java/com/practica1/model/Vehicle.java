@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.practica1.model.common.FuelType;
 
+import java.io.Serializable;
+
 @JsonTypeInfo(
         use = JsonTypeInfo.Id.NAME,
         include = JsonTypeInfo.As.PROPERTY,
@@ -13,7 +15,7 @@ import com.practica1.model.common.FuelType;
         @JsonSubTypes.Type(value = Car.class, name = "car"),
         @JsonSubTypes.Type(value = Motorcycle.class, name = "motorcycle")
 })
-public abstract class Vehicle {
+public abstract class Vehicle implements Serializable {
     private int id;
     private String brand;
     private String model;

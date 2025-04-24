@@ -58,14 +58,12 @@ public class VehicleDaoImpl implements VehicleDao{
         return -1;
     }
 
-
     @Override
     public void update(String licensePlate, Vehicle vehicle) {
         Optional<Car> car = carService.findByLicensePlate(licensePlate);
         Optional<Motorcycle> motorcycle = motorcycleService.findByLicensePlate(licensePlate);
 
         if (car.isPresent()){
-            validateCar((Car) vehicle);
             carService.update((Car)vehicle, car.get().getId());
         } else if (motorcycle.isPresent()){
             motorcycleService.update((Motorcycle)vehicle, motorcycle.get().getId());
@@ -137,7 +135,6 @@ public class VehicleDaoImpl implements VehicleDao{
 
         return allVehicles.stream()
                 .filter(vehicle -> {
-                    // Filtro para coches
                     if (filter instanceof Car && vehicle instanceof Car) {
                         Car filterCar = (Car) filter;
                         Car car = (Car) vehicle;
@@ -147,7 +144,6 @@ public class VehicleDaoImpl implements VehicleDao{
                                 (filterCar.getNumberOfDoors() == 0 || filterCar.getNumberOfDoors() == car.getNumberOfDoors());
                     }
 
-                    // Filtro para motos
                     if (filter instanceof Motorcycle && vehicle instanceof Motorcycle) {
                         Motorcycle filterMoto = (Motorcycle) filter;
                         Motorcycle moto = (Motorcycle) vehicle;
@@ -157,23 +153,9 @@ public class VehicleDaoImpl implements VehicleDao{
                                 (filterMoto.getEngineDisplacement() == 0 || filterMoto.getEngineDisplacement() == moto.getEngineDisplacement());
                     }
 
-                    // Si el tipo no coincide, no lo incluimos
                     return false;
                 })
                 .toList();
-    }
-
-    private void validateCar(Car car) {
-        if (car.getLicensePlate() == null || car.getLicensePlate().isBlank()) {
-            throw new IllegalArgumentException("La matrícula no puede estar vacía.");
-        }
-        if (car.getNumberOfDoors() <= 0) {
-            throw new IllegalArgumentException("El número de puertas debe ser mayor que 0.");
-        }
-        if (car.getFuelType() == null) {
-            throw new IllegalArgumentException("El tipo de combustible no puede ser nulo.");
-        }
-
     }
 
 }

@@ -11,7 +11,7 @@ import java.util.List;
 @RequestMapping("/api/vehicles")
 public class VehicleController {
 
-    private VehicleDao vehicleDaoSerice;
+    private final VehicleDao vehicleDaoSerice;
 
     public VehicleController(VehicleDao vehicleDaoService){
         this.vehicleDaoSerice = vehicleDaoService;
@@ -34,9 +34,8 @@ public class VehicleController {
 
     @PostMapping("/insert")
     public ResponseEntity<String> insertVehicle(@RequestBody Vehicle vehicle) {
-        int result = vehicleDaoSerice.insert(vehicle);
-        return result != -1 ? ResponseEntity.ok("Vehículo insertado correctamente")
-                : ResponseEntity.badRequest().body("Error al insertar el vehículo");
+        vehicleDaoSerice.insert(vehicle);
+        return ResponseEntity.ok("Vehículo insertado correctamente");
     }
 
     @PutMapping("/update/{licensePlate}")

@@ -4,7 +4,7 @@ import com.practica1.base.DatabaseConnection;
 import com.practica1.model.Car;
 import com.practica1.model.common.FuelType;
 import com.practica1.service.common.exception.DuplicateLicensePlateException;
-import org.h2.jdbc.JdbcSQLIntegrityConstraintViolationException;
+import com.practica1.service.common.exception.EmptyLicensePlateException;
 import org.springframework.stereotype.Repository;
 
 import java.sql.*;
@@ -22,9 +22,7 @@ public class CarDaoImpl implements CarDao{
     }
 
     public int create(Car car, int vehicleId) {
-
         car.setVehicleId(vehicleId);
-
         String query = "INSERT INTO Car (number_of_doors, license_plate, brand, model, \"year\", fuel_type, vehicle_id, id_concessionaire) " +
                 "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
@@ -45,7 +43,7 @@ public class CarDaoImpl implements CarDao{
             if (e.getMessage().contains("license_plate")) {
                 throw new DuplicateLicensePlateException(car.getLicensePlate());
             } else {
-                e.printStackTrace();  // Si no es un error de matrícula duplicada, lo puedes manejar de otra forma
+                e.printStackTrace();
             }
             return -1;
         }
@@ -76,7 +74,11 @@ public class CarDaoImpl implements CarDao{
                 System.out.println("Car with id " + car.getId() + " not found.");
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            if (e.getMessage().contains("license_plate")) {
+                throw new EmptyLicensePlateException();
+            } else {
+                e.printStackTrace();
+            }
         }
     }
 

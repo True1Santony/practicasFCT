@@ -1,6 +1,8 @@
 package com.practica1.model;
 
-public class Concessionaire {
+import java.io.Serializable;
+
+public class Concessionaire implements Serializable {
 
     private int id;
     private String name;

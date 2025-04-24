@@ -3,6 +3,7 @@ package com.practica1;
 import com.practica1.model.Car;
 import com.practica1.model.Motorcycle;
 import com.practica1.model.Vehicle;
+import com.practica1.model.common.FuelType;
 import com.practica1.service.dao.CarDao;
 import com.practica1.service.dao.MotorcycleDao;
 import com.practica1.service.dao.VehicleDaoImpl;
@@ -118,8 +119,8 @@ public class VehicleDaoImplTest {
     @DisplayName("🚗"+" actualiza coche")
     void testUpdateCar() {
         // Arrange
-        Car existingCar = new Car("Honda", "Civic", 2005, null, "5705GPA", 5, 1);
-        Car updatedCar = new Car("Honda", "Accord", 2020, null, "5705GPA", 5, 1);
+        Car existingCar = new Car("Honda", "Civic", 2005, FuelType.DIESEL, "5705GPA", 5, 1);
+        Car updatedCar = new Car("Honda", "Accord", 2020, FuelType.GASOLINE, "5705GPA", 5, 1);
         when(carService.findByLicensePlate("5705GPA")).thenReturn(Optional.of(existingCar));
 
         // Act

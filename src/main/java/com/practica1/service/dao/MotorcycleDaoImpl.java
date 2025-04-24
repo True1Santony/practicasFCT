@@ -3,6 +3,8 @@ package com.practica1.service.dao;
 import com.practica1.base.DatabaseConnection;
 import com.practica1.model.Motorcycle;
 import com.practica1.model.common.FuelType;
+import com.practica1.service.common.exception.DuplicateLicensePlateException;
+import com.practica1.service.common.exception.EmptyLicensePlateException;
 import org.springframework.stereotype.Repository;
 
 import java.sql.*;
@@ -36,7 +38,11 @@ public class MotorcycleDaoImpl implements MotorcycleDao {
             stmt.executeUpdate();
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            if (e.getMessage().contains("license_plate")) {
+                throw new DuplicateLicensePlateException(motorcycle.getLicensePlate());
+            } else {
+                e.printStackTrace();
+            }
         }
         return -1;
     }
@@ -63,7 +69,11 @@ public class MotorcycleDaoImpl implements MotorcycleDao {
                 System.out.println("Motorcycle with id " + motorcycle.getId() + " not found.");
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            if (e.getMessage().contains("license_plate")) {
+                throw new EmptyLicensePlateException();
+            } else {
+                e.printStackTrace();
+            }
         }
     }
 

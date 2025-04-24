@@ -1,7 +1,7 @@
 package com.practica1.service.common.exception;
 
-public class EmptyLicensePlateException extends Exception{
+public class EmptyLicensePlateException extends RuntimeException{
     public EmptyLicensePlateException(){
-        super("No hay vehículos registrados.");
+        super("Proporcione la matrícula.");
     }
 }

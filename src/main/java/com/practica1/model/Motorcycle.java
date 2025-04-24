@@ -2,7 +2,9 @@ package com.practica1.model;
 
 import com.practica1.model.common.FuelType;
 
-public class Motorcycle extends Vehicle{
+import java.io.Serializable;
+
+public class Motorcycle extends Vehicle implements Serializable {
 
     private int id;
     private int vehicleId;

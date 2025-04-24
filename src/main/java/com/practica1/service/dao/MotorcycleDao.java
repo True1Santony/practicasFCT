@@ -10,8 +10,6 @@ public interface MotorcycleDao {
     void update(Motorcycle motorcycle, int id);
     void deleteById(int id);
     Optional<Motorcycle> findByLicensePlate(String licensePlate);
-
     List<Motorcycle> findAll();
-
     Optional<List<Motorcycle>> findByVehicleId(int id);
 }
