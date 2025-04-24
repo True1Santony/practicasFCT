@@ -42,7 +42,7 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ApiError> handleEmptyLicensePlateException(EmptyLicensePlateException ex){
         ApiError apiError = new ApiError(
                 HttpStatus.BAD_REQUEST.value(),
-                "El campo de la matrícula no puede estar vacio"
+                "Se requiere una matrícula de vehiculo válida"
         );
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(apiError);
     }

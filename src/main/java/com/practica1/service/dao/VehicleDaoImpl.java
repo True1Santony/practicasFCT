@@ -3,6 +3,7 @@ package com.practica1.service.dao;
 import com.practica1.model.Car;
 import com.practica1.model.Motorcycle;
 import com.practica1.model.Vehicle;
+import com.practica1.service.common.exception.EmptyLicensePlateException;
 import com.practica1.service.common.exception.VehicleNotFoundException;
 import org.springframework.stereotype.Service;
 
@@ -74,6 +75,10 @@ public class VehicleDaoImpl implements VehicleDao{
     public void deleteByLicensePlate(String licensePlate) {
         Optional<Car> car = carService.findByLicensePlate(licensePlate);
         Optional<Motorcycle> motorcycle = motorcycleService.findByLicensePlate(licensePlate);
+
+        if (car.isEmpty() && motorcycle.isEmpty()) {
+            throw new EmptyLicensePlateException();
+        }
 
         if (car.isPresent()){
             carService.deleteById(car.get().getId());
