@@ -5,6 +5,7 @@ import com.practica1.model.Car;
 import com.practica1.model.common.FuelType;
 import com.practica1.service.common.exception.DuplicateLicensePlateException;
 import com.practica1.service.common.exception.EmptyLicensePlateException;
+import com.practica1.service.common.exception.VehicleInsertionFailedException;
 import org.springframework.stereotype.Repository;
 
 import java.sql.*;
@@ -17,7 +18,7 @@ public class CarDaoImpl implements CarDao{
 
     private final DatabaseConnection databaseConnection;
 
-    public CarDaoImpl(DatabaseConnection databaseConnection) throws SQLException {
+    public CarDaoImpl(DatabaseConnection databaseConnection) {
         this.databaseConnection = databaseConnection;
     }
 
@@ -43,9 +44,8 @@ public class CarDaoImpl implements CarDao{
             if (e.getMessage().contains("license_plate")) {
                 throw new DuplicateLicensePlateException(car.getLicensePlate());
             } else {
-                e.printStackTrace();
+                throw new VehicleInsertionFailedException("Error al insertar el vehículo: " + e.getMessage());
             }
-            return -1;
         }
         return 1;
     }

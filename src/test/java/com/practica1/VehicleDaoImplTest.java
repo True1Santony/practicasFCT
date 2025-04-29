@@ -4,6 +4,7 @@ import com.practica1.model.Car;
 import com.practica1.model.Motorcycle;
 import com.practica1.model.Vehicle;
 import com.practica1.model.common.FuelType;
+import com.practica1.service.common.exception.VehicleNotFoundException;
 import com.practica1.service.dao.CarDao;
 import com.practica1.service.dao.MotorcycleDao;
 import com.practica1.service.dao.VehicleDaoImpl;
@@ -16,6 +17,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -220,5 +222,101 @@ public class VehicleDaoImplTest {
         // Assert
         assertFalse(result.isPresent());
     }
+
+    @Test
+    @DisplayName("🔎 Obtiene todos los vehículos (coches y motos)")
+    void getAll_ShouldReturnAllVehicles() {
+        // Arrange
+        Car car = new Car();
+        car.setBrand("Toyota");
+        Motorcycle moto = new Motorcycle();
+        moto.setBrand("Yamaha");
+
+        when(carService.findAll()).thenReturn(List.of(car));
+        when(motorcycleService.findAll()).thenReturn(List.of(moto));
+
+        // Act
+        List<Vehicle> vehicles = vehicleDao.getAll();
+
+        // Assert
+        assertEquals(2, vehicles.size());
+        assertTrue(vehicles.contains(car));
+        assertTrue(vehicles.contains(moto));
+    }
+
+    @Test
+    @DisplayName("🔍 Busca vehículo por ID (coche encontrado)")
+    void getById_WhenCarExists_ShouldReturnCar() throws VehicleNotFoundException {
+        // Arrange
+        int id = 1;
+        Car car = new Car();
+        car.setVehicleId(id);
+
+        when(carService.findByVehicleId(id)).thenReturn(Optional.of(List.of(car)));
+
+        // Act
+        List<Vehicle> vehicles = vehicleDao.getById(id);
+
+        // Assert
+        assertEquals(1, vehicles.size());
+        assertEquals(car, vehicles.get(0));
+    }
+    @Test
+    @DisplayName("🔍 Busca vehículo por ID (moto encontrada)")
+    void getById_WhenMotorcycleExists_ShouldReturnMotorcycle() throws VehicleNotFoundException {
+        // Arrange
+        int id = 2;
+        Motorcycle moto = new Motorcycle();
+        moto.setVehicleId(id);
+
+        when(carService.findByVehicleId(id)).thenReturn(Optional.empty());
+        when(motorcycleService.findByVehicleId(id)).thenReturn(Optional.of(List.of(moto)));
+
+        // Act
+        List<Vehicle> vehicles = vehicleDao.getById(id);
+
+        // Assert
+        assertEquals(1, vehicles.size());
+        assertEquals(moto, vehicles.get(0));
+    }
+
+    @Test
+    @DisplayName("❌ No encuentra vehículo por ID, lanza excepción")
+    void getById_WhenNotFound_ShouldThrowException() {
+        // Arrange
+        int id = 999;
+
+        when(carService.findByVehicleId(id)).thenReturn(Optional.empty());
+        when(motorcycleService.findByVehicleId(id)).thenReturn(Optional.empty());
+
+        // Act & Assert
+        assertThrows(VehicleNotFoundException.class, () -> vehicleDao.getById(id));
+    }
+
+    @Test
+    @DisplayName("🔍 Filtra vehículos (coches por marca)")
+    void filter_ShouldReturnMatchingCars() {
+        // Arrange
+        Car filter = new Car();
+        filter.setBrand("Toyota");
+
+        Car car1 = new Car();
+        car1.setBrand("Toyota");
+
+        Car car2 = new Car();
+        car2.setBrand("Honda");
+
+        when(carService.findAll()).thenReturn(List.of(car1, car2));
+        when(motorcycleService.findAll()).thenReturn(List.of());
+
+        // Act
+        List<Vehicle> result = vehicleDao.filter(filter);
+
+        // Assert
+        assertEquals(1, result.size());
+        assertEquals("Toyota", ((Car) result.get(0)).getBrand());
+    }
+
+
 
 }

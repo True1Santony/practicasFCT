@@ -109,7 +109,7 @@ public class CarDaoImplTest {
         List<Car> cars = carDao.findAll();
 
         assertEquals(1, cars.size());
-        assertEquals("XYZ123", cars.get(0).getLicensePlate());
+        assertEquals("XYZ123", cars.getFirst().getLicensePlate());
     }
 
     @Test
