@@ -24,7 +24,6 @@ public class ReportsController {
 
     @PostMapping()
     public ResponseEntity<byte[]> generateReport(@Valid @RequestBody ReportDto reportDto) throws JRException {
-
         byte[] reportBytes = reportService.generateReport(reportDto);
 
         String contentType;
@@ -51,7 +50,5 @@ public class ReportsController {
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + reportDto.getReportType() + fileExtension)
                 .contentType(MediaType.parseMediaType(contentType))
                 .body(reportBytes);
-
-
     }
 }

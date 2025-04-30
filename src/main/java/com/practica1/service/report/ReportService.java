@@ -75,7 +75,5 @@ public class ReportService {
         } catch (SQLException e) {
             throw new RuntimeException("Error al generar el reporte: " + e.getMessage(), e);
         }
-
-
     }
 }
