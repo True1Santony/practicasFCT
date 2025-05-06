@@ -4500,3 +4500,279 @@ Caused by: org.h2.mvstore.MVStoreException: The file is locked: C:/DESARROLLO/fo
 	at org.h2.mvstore.SingleFileStore.open(SingleFileStore.java:81)
 	at org.h2.mvstore.MVStore.<init>(MVStore.java:286)
 	... 17 more
+2025-05-05 10:45:01.885222+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Conversión de datos fallida, convirtiendo "CHARACTER VARYING to DECFLOAT"
+Data conversion error converting "CHARACTER VARYING to DECFLOAT"; SQL statement:
+SELECT 
+    CASE 
+        WHEN V.VEHICLE_TYPE = 1 THEN 'CAR'
+        WHEN V.VEHICLE_TYPE = 2 THEN 'MOTORCYCLE'
+    END AS VEHICLE_CATEGORY,
+    COUNT(*) AS TOTAL
+FROM VEHICLE V
+GROUP BY V.VEHICLE_TYPE [22018-224]
+2025-05-05 10:45:51.856042+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Conversión de datos fallida, convirtiendo "CHARACTER VARYING to DECFLOAT"
+Data conversion error converting "CHARACTER VARYING to DECFLOAT"; SQL statement:
+SELECT 
+    CASE 
+        WHEN V.VEHICLE_TYPE = 1 THEN 'CAR'
+        WHEN V.VEHICLE_TYPE = 2 THEN 'MOTORCYCLE'
+    END AS VEHICLE_CATEGORY,
+    COUNT(*) AS TOTAL
+FROM VEHICLE V
+GROUP BY V.VEHICLE_TYPE [22018-224]
+2025-05-05 10:50:01.248047+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Conversión de datos fallida, convirtiendo "CHARACTER VARYING to DECFLOAT"
+Data conversion error converting "CHARACTER VARYING to DECFLOAT"; SQL statement:
+SELECT 
+    CASE 
+        WHEN V.VEHICLE_TYPE = 1 THEN 'CAR'
+        WHEN V.VEHICLE_TYPE = 2 THEN 'MOTORCYCLE'
+    END AS VEHICLE_CATEGORY,
+    COUNT(*) AS TOTAL
+FROM VEHICLE V
+GROUP BY V.VEHICLE_TYPE [22018-224]
+2025-05-05 10:56:07.319984+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Conversión de datos fallida, convirtiendo "CHARACTER VARYING to DECFLOAT"
+Data conversion error converting "CHARACTER VARYING to DECFLOAT"; SQL statement:
+SELECT 
+    'CAR' AS VEHICLE_CATEGORY,
+    COUNT(*) AS TOTAL
+FROM CAR C
+INNER JOIN VEHICLE V ON C.VEHICLE_ID = V.ID
+WHERE V.VEHICLE_TYPE = 1
+
+UNION ALL
+
+SELECT 
+    'MOTORCYCLE' AS VEHICLE_CATEGORY,
+    COUNT(*) AS TOTAL
+FROM MOTORCYCLE M
+INNER JOIN VEHICLE V ON M.VEHICLE_ID = V.ID
+WHERE V.VEHICLE_TYPE = 2 [22018-224]
+2025-05-05 10:56:12.527778+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Conversión de datos fallida, convirtiendo "CHARACTER VARYING to DECFLOAT"
+Data conversion error converting "CHARACTER VARYING to DECFLOAT"; SQL statement:
+SELECT 
+    'CAR' AS VEHICLE_CATEGORY,
+    COUNT(*) AS TOTAL
+FROM CAR C
+INNER JOIN VEHICLE V ON C.VEHICLE_ID = V.ID
+WHERE V.VEHICLE_TYPE = 1
+
+UNION ALL
+
+SELECT 
+    'MOTORCYCLE' AS VEHICLE_CATEGORY,
+    COUNT(*) AS TOTAL
+FROM MOTORCYCLE M
+INNER JOIN VEHICLE V ON M.VEHICLE_ID = V.ID
+WHERE V.VEHICLE_TYPE = 2 [22018-224]
+2025-05-05 12:50:19.190795+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Error de Sintaxis en sentencia SQL "SELECT \000a    v.vehicle_type,\000a    c.brand,\000a    c.model,\000a    c.[*]year,\000a    c.license_plate,\000a    c.id_concessionaire\000aFROM Car c\000aJOIN Vehicle v ON c.vehicle_id = v.id\000aUNION ALL\000aSELECT \000a    v.vehicle_type,\000a    m.brand,\000a    m.model,\000a    m.year,\000a    m.license_plate,\000a    m.id_concessionaire\000aFROM Motorcycle m\000aJOIN Vehicle v ON m.vehicle_id = v.id\000aORDER BY vehicle_type, brand"; se esperaba "identifier"
+Syntax error in SQL statement "SELECT \000a    v.vehicle_type,\000a    c.brand,\000a    c.model,\000a    c.[*]year,\000a    c.license_plate,\000a    c.id_concessionaire\000aFROM Car c\000aJOIN Vehicle v ON c.vehicle_id = v.id\000aUNION ALL\000aSELECT \000a    v.vehicle_type,\000a    m.brand,\000a    m.model,\000a    m.year,\000a    m.license_plate,\000a    m.id_concessionaire\000aFROM Motorcycle m\000aJOIN Vehicle v ON m.vehicle_id = v.id\000aORDER BY vehicle_type, brand"; expected "identifier"; SQL statement:
+SELECT 
+    v.vehicle_type,
+    c.brand,
+    c.model,
+    c.year,
+    c.license_plate,
+    c.id_concessionaire
+FROM Car c
+JOIN Vehicle v ON c.vehicle_id = v.id
+UNION ALL
+SELECT 
+    v.vehicle_type,
+    m.brand,
+    m.model,
+    m.year,
+    m.license_plate,
+    m.id_concessionaire
+FROM Motorcycle m
+JOIN Vehicle v ON m.vehicle_id = v.id
+ORDER BY vehicle_type, brand [42001-224]
+2025-05-05 12:51:02.876905+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Error de Sintaxis en sentencia SQL "SELECT \000a    v.vehicle_type,\000a    c.brand,\000a    c.model,\000a    c.[*]year,\000a    c.license_plate,\000a    c.id_concessionaire\000aFROM Car c\000aJOIN Vehicle v ON c.vehicle_id = v.id\000aUNION ALL\000aSELECT \000a    v.vehicle_type,\000a    m.brand,\000a    m.model,\000a    m.year,\000a    m.license_plate,\000a    m.id_concessionaire\000aFROM Motorcycle m\000aJOIN Vehicle v ON m.vehicle_id = v.id\000aORDER BY vehicle_type, brand"; se esperaba "identifier"
+Syntax error in SQL statement "SELECT \000a    v.vehicle_type,\000a    c.brand,\000a    c.model,\000a    c.[*]year,\000a    c.license_plate,\000a    c.id_concessionaire\000aFROM Car c\000aJOIN Vehicle v ON c.vehicle_id = v.id\000aUNION ALL\000aSELECT \000a    v.vehicle_type,\000a    m.brand,\000a    m.model,\000a    m.year,\000a    m.license_plate,\000a    m.id_concessionaire\000aFROM Motorcycle m\000aJOIN Vehicle v ON m.vehicle_id = v.id\000aORDER BY vehicle_type, brand"; expected "identifier"; SQL statement:
+SELECT 
+    v.vehicle_type,
+    c.brand,
+    c.model,
+    c.year,
+    c.license_plate,
+    c.id_concessionaire
+FROM Car c
+JOIN Vehicle v ON c.vehicle_id = v.id
+UNION ALL
+SELECT 
+    v.vehicle_type,
+    m.brand,
+    m.model,
+    m.year,
+    m.license_plate,
+    m.id_concessionaire
+FROM Motorcycle m
+JOIN Vehicle v ON m.vehicle_id = v.id
+ORDER BY vehicle_type, brand [42001-224]
+2025-05-05 12:51:08.953200+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Error de Sintaxis en sentencia SQL "SELECT \000a    v.vehicle_type,\000a    c.brand,\000a    c.model,\000a    c.[*]year,\000a    c.license_plate,\000a    c.id_concessionaire\000aFROM Car c\000aJOIN Vehicle v ON c.vehicle_id = v.id\000aUNION ALL\000aSELECT \000a    v.vehicle_type,\000a    m.brand,\000a    m.model,\000a    m.year,\000a    m.license_plate,\000a    m.id_concessionaire\000aFROM Motorcycle m\000aJOIN Vehicle v ON m.vehicle_id = v.id\000aORDER BY vehicle_type, brand"; se esperaba "identifier"
+Syntax error in SQL statement "SELECT \000a    v.vehicle_type,\000a    c.brand,\000a    c.model,\000a    c.[*]year,\000a    c.license_plate,\000a    c.id_concessionaire\000aFROM Car c\000aJOIN Vehicle v ON c.vehicle_id = v.id\000aUNION ALL\000aSELECT \000a    v.vehicle_type,\000a    m.brand,\000a    m.model,\000a    m.year,\000a    m.license_plate,\000a    m.id_concessionaire\000aFROM Motorcycle m\000aJOIN Vehicle v ON m.vehicle_id = v.id\000aORDER BY vehicle_type, brand"; expected "identifier"; SQL statement:
+SELECT 
+    v.vehicle_type,
+    c.brand,
+    c.model,
+    c.year,
+    c.license_plate,
+    c.id_concessionaire
+FROM Car c
+JOIN Vehicle v ON c.vehicle_id = v.id
+UNION ALL
+SELECT 
+    v.vehicle_type,
+    m.brand,
+    m.model,
+    m.year,
+    m.license_plate,
+    m.id_concessionaire
+FROM Motorcycle m
+JOIN Vehicle v ON m.vehicle_id = v.id
+ORDER BY vehicle_type, brand [42001-224]
+2025-05-06 09:24:56.187347+02:00 jdbc[5]: null
+org.h2.message.DbException: La conexión no fue cerrada por la aplicación y esta siendo limpiada (garbage collected)
+The connection was not closed by the application and is garbage collected [90018-232]
+	at org.h2.message.DbException.get(DbException.java:223)
+	at org.h2.message.DbException.get(DbException.java:199)
+	at org.h2.message.DbException.get(DbException.java:188)
+	at org.h2.jdbc.JdbcConnection.closeOld(JdbcConnection.java:217)
+	at org.h2.jdbc.JdbcConnection.<init>(JdbcConnection.java:134)
+	at org.h2.Driver.connect(Driver.java:59)
+	at java.sql/java.sql.DriverManager.getConnection(DriverManager.java:683)
+	at java.sql/java.sql.DriverManager.getConnection(DriverManager.java:230)
+	at com.practica1.base.DatabaseConnectionImpl.getConnection(DatabaseConnectionImpl.java:89)
+	at com.practica1.service.dao.CarDaoImpl.findAll(CarDaoImpl.java:134)
+	at com.practica1.service.dao.VehicleDaoImpl.getAll(VehicleDaoImpl.java:108)
+	at com.practica1.service.dao.VehicleDaoImpl.filter(VehicleDaoImpl.java:139)
+	at com.practica1.controllers.VehicleController.filter(VehicleController.java:32)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:258)
+	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:191)
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:118)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:986)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:891)
+	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87)
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1089)
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:979)
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1014)
+	at org.springframework.web.servlet.FrameworkServlet.doPost(FrameworkServlet.java:914)
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:590)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:885)
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:658)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:195)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:51)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:167)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:90)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:483)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:115)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:93)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:344)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:397)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:905)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1743)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1190)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:63)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+Caused by: org.h2.jdbc.JdbcSQLNonTransientConnectionException: La conexión no fue cerrada por la aplicación y esta siendo limpiada (garbage collected)
+The connection was not closed by the application and is garbage collected [90018-232]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:690)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:489)
+	... 61 more
+2025-05-06 09:24:56.205662+02:00 jdbc[5]: null
+org.h2.message.DbException: La conexión no fue cerrada por la aplicación y esta siendo limpiada (garbage collected)
+The connection was not closed by the application and is garbage collected [90018-232]
+	at org.h2.message.DbException.get(DbException.java:223)
+	at org.h2.message.DbException.get(DbException.java:199)
+	at org.h2.message.DbException.get(DbException.java:188)
+	at org.h2.jdbc.JdbcConnection.closeOld(JdbcConnection.java:217)
+	at org.h2.jdbc.JdbcConnection.<init>(JdbcConnection.java:134)
+	at org.h2.Driver.connect(Driver.java:59)
+	at java.sql/java.sql.DriverManager.getConnection(DriverManager.java:683)
+	at java.sql/java.sql.DriverManager.getConnection(DriverManager.java:230)
+	at com.practica1.base.DatabaseConnectionImpl.getConnection(DatabaseConnectionImpl.java:89)
+	at com.practica1.service.dao.CarDaoImpl.findAll(CarDaoImpl.java:134)
+	at com.practica1.service.dao.VehicleDaoImpl.getAll(VehicleDaoImpl.java:108)
+	at com.practica1.service.dao.VehicleDaoImpl.filter(VehicleDaoImpl.java:139)
+	at com.practica1.controllers.VehicleController.filter(VehicleController.java:32)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:258)
+	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:191)
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:118)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:986)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:891)
+	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87)
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1089)
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:979)
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1014)
+	at org.springframework.web.servlet.FrameworkServlet.doPost(FrameworkServlet.java:914)
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:590)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:885)
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:658)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:195)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:51)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:167)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:90)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:483)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:115)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:93)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:344)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:397)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:905)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1743)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1190)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:63)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+Caused by: org.h2.jdbc.JdbcSQLNonTransientConnectionException: La conexión no fue cerrada por la aplicación y esta siendo limpiada (garbage collected)
+The connection was not closed by the application and is garbage collected [90018-232]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:690)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:489)
+	... 61 more

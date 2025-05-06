@@ -5,6 +5,7 @@ import com.practica1.model.Motorcycle;
 import com.practica1.model.common.FuelType;
 import com.practica1.service.common.exception.DuplicateLicensePlateException;
 import com.practica1.service.common.exception.EmptyLicensePlateException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 
 import java.sql.*;
@@ -12,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+@Slf4j
 @Repository
 public class MotorcycleDaoImpl implements MotorcycleDao {
 
@@ -64,9 +66,9 @@ public class MotorcycleDaoImpl implements MotorcycleDao {
             int rowsUpdated = stmt.executeUpdate();
 
             if (rowsUpdated > 0) {
-                System.out.println("Motorcycle updated successfully.");
+                log.info("Motocicleta, actualizada correctamente.");
             } else {
-                System.out.println("Motorcycle with id " + motorcycle.getId() + " not found.");
+                log.error("Motocicleta, con el ID : "+ motorcycle.getId()+ ", no encontrada." );
             }
         } catch (SQLException e) {
             if (e.getMessage().contains("license_plate")) {
@@ -87,9 +89,9 @@ public class MotorcycleDaoImpl implements MotorcycleDao {
             int rowsDeleted = stmt.executeUpdate();
 
             if (rowsDeleted > 0) {
-                System.out.println("Motorcycle with id " + id + " deleted successfully.");
+                log.info("Motocicleta, con el ID: " + id + ", borrada correctamente.");
             } else {
-                System.out.println("Motorcycle with id " + id + " not found.");
+                log.error("Motocicleta, con el ID: " + id + ", no encontrada.");
             }
         } catch (SQLException e) {
             e.printStackTrace();

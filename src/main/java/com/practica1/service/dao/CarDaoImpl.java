@@ -6,6 +6,7 @@ import com.practica1.model.common.FuelType;
 import com.practica1.service.common.exception.DuplicateLicensePlateException;
 import com.practica1.service.common.exception.EmptyLicensePlateException;
 import com.practica1.service.common.exception.VehicleInsertionFailedException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 
 import java.sql.*;
@@ -13,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+@Slf4j
 @Repository
 public class CarDaoImpl implements CarDao{
 
@@ -69,9 +71,9 @@ public class CarDaoImpl implements CarDao{
             int rowsUpdated = stmt.executeUpdate();
 
             if (rowsUpdated > 0) {
-                System.out.println("Car updated successfully.");
+                log.info("Coche actualizado correctamente.");
             } else {
-                System.out.println("Car with id " + car.getId() + " not found.");
+                log.error("Coche con el ID " + car.getId() + ", no encontrado.");
             }
         } catch (SQLException e) {
             if (e.getMessage().contains("license_plate")) {
@@ -91,9 +93,9 @@ public class CarDaoImpl implements CarDao{
             int rowsDeleted = stmt.executeUpdate();
 
             if (rowsDeleted > 0) {
-                System.out.println("Car with id " + id + " deleted successfully.");
+                log.info("Coche con el ID " + id + ", borrado correctamente.");
             } else {
-                System.out.println("Car with id " + id + " not found.");
+                log.error("Coche con el ID " + id + ", no encontrado.");
             }
         } catch (SQLException e) {
             e.printStackTrace();

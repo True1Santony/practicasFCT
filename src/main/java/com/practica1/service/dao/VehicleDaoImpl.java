@@ -5,12 +5,14 @@ import com.practica1.model.Motorcycle;
 import com.practica1.model.Vehicle;
 import com.practica1.service.common.exception.EmptyLicensePlateException;
 import com.practica1.service.common.exception.VehicleNotFoundException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+@Slf4j
 @Service
 public class VehicleDaoImpl implements VehicleDao{
 
@@ -112,6 +114,7 @@ public class VehicleDaoImpl implements VehicleDao{
         vehicles.addAll(cars);
         vehicles.addAll(motorcycles);
 
+        log.info("Se han encontrado: " + vehicles.size() + " vehículos.");
         return vehicles;
     }
 
@@ -122,15 +125,17 @@ public class VehicleDaoImpl implements VehicleDao{
         Optional<List<Car>> carOptional = carService.findByVehicleId(id);
         if (carOptional.isPresent()) {
             vehicles.addAll(carOptional.get());
+            log.info("Se han encontrado: " + vehicles.size() + " coches.");
             return vehicles;
         }
 
         Optional<List<Motorcycle>> motorcycleOptional = motorcycleService.findByVehicleId(id);
         if (motorcycleOptional.isPresent()) {
             vehicles.addAll(motorcycleOptional.get());
+            log.info("Se han encontrado: " + vehicles.size() + " motos.");
             return vehicles;
-        }
 
+        }
         throw new VehicleNotFoundException(id);
     }
 
@@ -138,7 +143,7 @@ public class VehicleDaoImpl implements VehicleDao{
     public List<Vehicle> filter(Vehicle filter) {
         List<Vehicle> allVehicles = getAll();
 
-        return allVehicles.stream()
+        List<Vehicle> filtered = allVehicles.stream()
                 .filter(vehicle -> {
                     if (filter instanceof Car && vehicle instanceof Car) {
                         Car filterCar = (Car) filter;
@@ -171,6 +176,13 @@ public class VehicleDaoImpl implements VehicleDao{
                     return false;
                 })
                 .toList();
+        log.info("Se encontraron {} vehículos con los criterios proporcionados", filtered.size());
+
+        if (filtered.isEmpty()) {
+            throw new VehicleNotFoundException("No se encontraron vehículos con los criterios proporcionados.");
+        }
+
+        return filtered;
     }
 
 }
