@@ -313,10 +313,59 @@ public class VehicleDaoImplTest {
         List<Vehicle> result = vehicleDao.filter(filter);
 
         // Assert
-        assertEquals(1, result.size());
-        assertEquals("Toyota", ((Car) result.get(0)).getBrand());
+        assertEquals(1, result.size(), "Debe retornar solo un coche con marca Toyota");
+        assertInstanceOf(Car.class, result.getFirst());
+        assertEquals("Toyota", ((Car) result.getFirst()).getBrand());
     }
 
+    @Test
+    @DisplayName("❌ Filtra coches sin coincidencias - debe lanzar excepción")
+    void filterCars_NoMatch_ShouldThrowException() {
+        // Arrange
+        Car filter = new Car();
+        filter.setBrand("Mazda");
+
+        Car car1 = new Car();
+        car1.setBrand("Toyota");
+
+        Car car2 = new Car();
+        car2.setBrand("Honda");
+
+        when(carService.findAll()).thenReturn(List.of(car1, car2));
+        when(motorcycleService.findAll()).thenReturn(List.of());
+
+        // Act & Assert
+        VehicleNotFoundException thrown = assertThrows(VehicleNotFoundException.class, () -> {
+            vehicleDao.filter(filter);
+        });
+
+        assertEquals("No se encontraron vehículos con los criterios proporcionados.", thrown.getMessage());
+    }
+
+    @Test
+    @DisplayName("🏍️ Filtra motocicletas por marca - debe retornar coincidencias")
+    void filterMotorcyclesByBrand_ShouldReturnMatchingMotorcycles() {
+        // Arrange
+        Motorcycle filter = new Motorcycle();
+        filter.setBrand("Yamaha");
+
+        Motorcycle moto1 = new Motorcycle();
+        moto1.setBrand("Yamaha");
+
+        Motorcycle moto2 = new Motorcycle();
+        moto2.setBrand("Suzuki");
+
+        when(carService.findAll()).thenReturn(List.of());
+        when(motorcycleService.findAll()).thenReturn(List.of(moto1, moto2));
+
+        // Act
+        List<Vehicle> result = vehicleDao.filter(filter);
+
+        // Assert
+        assertEquals(1, result.size(), "Debe retornar solo una motocicleta con marca Yamaha");
+        assertInstanceOf(Motorcycle.class, result.getFirst());
+        assertEquals("Yamaha", ((Motorcycle) result.getFirst()).getBrand());
+    }
 
 
 }

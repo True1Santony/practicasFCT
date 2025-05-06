@@ -7,10 +7,7 @@ import com.practica1.service.dao.CarDaoImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.List;
 import java.util.Optional;
 
@@ -46,8 +43,17 @@ public class CarDaoImplTest {
         int result = carDao.create(car, 1);
 
         assertEquals(1, result);
-        verify(mockStmt).setInt(1, 4);
-        verify(mockStmt).setString(2, "XYZ123");
+
+        verify(mockStmt).setObject(eq(1), eq(4), eq(Types.INTEGER));
+        verify(mockStmt).setString(eq(2), eq("XYZ123"));
+        verify(mockStmt).setObject(eq(3), eq("Toyota"), eq(Types.VARCHAR));
+        verify(mockStmt).setObject(eq(4), eq("Corolla"), eq(Types.VARCHAR));
+        verify(mockStmt).setObject(eq(5), eq(2020), eq(Types.INTEGER));
+        verify(mockStmt).setObject(eq(6), eq("GASOLINE"), eq(Types.VARCHAR));
+        verify(mockStmt).setInt(eq(7), eq(1));
+        verify(mockStmt).setObject(eq(8), eq(1), eq(Types.INTEGER));
+
+        verify(mockStmt).executeUpdate();
     }
 
     @Test
@@ -103,7 +109,7 @@ public class CarDaoImplTest {
         when(mockConnection.prepareStatement(anyString())).thenReturn(mockStmt);
         when(mockStmt.executeQuery()).thenReturn(mockRs);
 
-        when(mockRs.next()).thenReturn(true, false); // Un resultado
+        when(mockRs.next()).thenReturn(true, false);
         mockResultSetWithCar(mockRs);
 
         List<Car> cars = carDao.findAll();
@@ -125,6 +131,66 @@ public class CarDaoImplTest {
         assertEquals(1, cars.size());
         assertEquals(1, cars.get(0).getConcessionaireId());
     }
+
+    @Test
+    public void testFindByVehicleId_WhenCarsExist() throws SQLException {
+        when(mockConnection.prepareStatement(anyString())).thenReturn(mockStmt);
+        when(mockStmt.executeQuery()).thenReturn(mockRs);
+
+        when(mockRs.next()).thenReturn(true, false);
+        mockResultSetWithCar(mockRs);
+
+        // When
+        Optional<List<Car>> result = carDao.findByVehicleId(100);
+
+        // Then
+        assertTrue(result.isPresent());
+        assertEquals(1, result.get().size());
+
+        Car car = result.get().get(0);
+        assertEquals(10, car.getId());
+        assertEquals(4, car.getNumberOfDoors());
+        assertEquals("XYZ123", car.getLicensePlate());
+        assertEquals("Toyota", car.getBrand());
+        assertEquals("Corolla", car.getModel());
+        assertEquals(2020, car.getYear());
+        assertEquals(FuelType.GASOLINE, car.getFuelType());
+        assertEquals(1, car.getVehicleId());
+        assertEquals(1, car.getConcessionaireId());
+
+        verify(mockStmt).setInt(1, 100);
+        verify(mockStmt).executeQuery();
+    }
+
+    @Test
+    public void testFindByVehicleId_WhenNoCarsFound() throws SQLException {
+        when(mockConnection.prepareStatement(anyString())).thenReturn(mockStmt);
+        when(mockStmt.executeQuery()).thenReturn(mockRs);
+        when(mockRs.next()).thenReturn(false);
+
+
+        Optional<List<Car>> result = carDao.findByVehicleId(999);
+
+        // Verificación
+        assertFalse(result.isPresent());
+        verify(mockStmt).setInt(1, 999);
+        verify(mockStmt).executeQuery();
+    }
+
+    @Test
+    public void testFindByVehicleId_WhenSQLExceptionOccurs() throws SQLException {
+
+        when(mockConnection.prepareStatement(anyString())).thenReturn(mockStmt);
+        when(mockStmt.executeQuery()).thenThrow(new SQLException("Error de BD"));
+
+        Optional<List<Car>> result = carDao.findByVehicleId(1);
+
+        // Verificación
+        assertFalse(result.isPresent());
+        verify(mockStmt).setInt(1, 1);
+        verify(mockStmt).executeQuery();
+    }
+
 
     // Helpers
     private Car getTestCar() {

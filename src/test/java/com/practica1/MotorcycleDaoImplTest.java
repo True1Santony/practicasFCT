@@ -8,6 +8,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.sql.*;
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -37,17 +38,29 @@ public class MotorcycleDaoImplTest {
     @Test
     public void testCreate_Success() throws Exception {
         Motorcycle moto = getTestMotorcycle();
-        when(mockConnection.prepareStatement(anyString(), eq(Statement.RETURN_GENERATED_KEYS)))
-                .thenReturn(mockStmt);
+        when(mockConnection.prepareStatement(anyString(), eq(Statement.RETURN_GENERATED_KEYS))).thenReturn(mockStmt);
         when(mockStmt.executeUpdate()).thenReturn(1);
 
         int result = motorcycleDao.create(moto, 1);
 
-        // El método siempre retorna -1 por diseño
         assertEquals(-1, result);
-        verify(mockStmt).setInt(1, moto.getConcessionaireId());
-        verify(mockStmt).setInt(2, moto.getEngineDisplacement());
-        verify(mockStmt).setString(3, moto.getLicensePlate());
+
+        verify(mockStmt).setObject(eq(1), eq(moto.getConcessionaireId()), eq(Types.INTEGER));
+        verify(mockStmt).setObject(eq(2), eq(moto.getEngineDisplacement()), eq(Types.INTEGER));
+        verify(mockStmt).setString(eq(3), eq(moto.getLicensePlate()));
+        verify(mockStmt).setObject(eq(4), eq(moto.getBrand()), eq(Types.VARCHAR));
+        verify(mockStmt).setObject(eq(5), eq(moto.getModel()), eq(Types.VARCHAR));
+        verify(mockStmt).setObject(eq(6), eq(moto.getYear()), eq(Types.INTEGER));
+
+        if (moto.getFuelType() != null) {
+            verify(mockStmt).setObject(eq(7), eq(moto.getFuelType().name()), eq(Types.VARCHAR));
+        } else {
+            verify(mockStmt).setObject(eq(7), isNull(), eq(Types.NULL));
+        }
+
+        verify(mockStmt).setInt(eq(8), eq(1));
+
+        verify(mockStmt).executeUpdate();
     }
 
     @Test
@@ -98,6 +111,102 @@ public class MotorcycleDaoImplTest {
         Optional<Motorcycle> result = motorcycleDao.findByLicensePlate("ABC000");
 
         assertFalse(result.isPresent());
+    }
+
+    @Test
+    public void testFindAll_ReturnsListOfMotorcycles() throws SQLException {
+        // Given
+        when(mockConnection.prepareStatement(anyString())).thenReturn(mockStmt);
+        when(mockStmt.executeQuery()).thenReturn(mockRs);
+        when(mockRs.next()).thenReturn(true, false);
+
+        mockResultSetWithMotorcycle(mockRs);
+
+        // When
+        List<Motorcycle> result = motorcycleDao.findAll();
+
+        // Then
+        assertNotNull(result);
+        assertEquals(1, result.size());
+
+        Motorcycle moto = result.get(0);
+        assertEquals(1, moto.getId());
+        assertEquals(125, moto.getEngineDisplacement());
+        assertEquals("XYZ123", moto.getLicensePlate());
+        assertEquals("Yamaha", moto.getBrand());
+        assertEquals("YZF-R125", moto.getModel());
+        assertEquals(2021, moto.getYear());
+        assertEquals(FuelType.GASOLINE, moto.getFuelType());
+        assertEquals(1, moto.getVehicleId());
+        assertEquals(1, moto.getConcessionaireId());
+
+        verify(mockStmt).executeQuery();
+    }
+
+    @Test
+    public void testFindByVehicleId_WhenMotorcycleExists() throws SQLException {
+        // Given
+        int vehicleId = 1;
+        when(mockConnection.prepareStatement(anyString())).thenReturn(mockStmt);
+        when(mockStmt.executeQuery()).thenReturn(mockRs);
+        when(mockRs.next()).thenReturn(true, false); // Una fila
+
+        mockResultSetWithMotorcycle(mockRs);
+
+        // When
+        Optional<List<Motorcycle>> result = motorcycleDao.findByVehicleId(vehicleId);
+
+        // Then
+        assertTrue(result.isPresent());
+        List<Motorcycle> motorcycles = result.get();
+        assertEquals(1, motorcycles.size());
+
+        Motorcycle moto = motorcycles.get(0);
+        assertEquals(1, moto.getId());
+        assertEquals(125, moto.getEngineDisplacement());
+        assertEquals("XYZ123", moto.getLicensePlate());
+        assertEquals("Yamaha", moto.getBrand());
+        assertEquals("YZF-R125", moto.getModel());
+        assertEquals(2021, moto.getYear());
+        assertEquals(FuelType.GASOLINE, moto.getFuelType());
+        assertEquals(1, moto.getVehicleId());
+        assertEquals(1, moto.getConcessionaireId());
+
+        verify(mockStmt).setInt(eq(1), eq(vehicleId));
+        verify(mockStmt).executeQuery();
+    }
+
+    @Test
+    public void testFindByVehicleId_WhenNoMotorcycleFound() throws SQLException {
+        // Given
+        int vehicleId = 999;
+        when(mockConnection.prepareStatement(anyString())).thenReturn(mockStmt);
+        when(mockStmt.executeQuery()).thenReturn(mockRs);
+        when(mockRs.next()).thenReturn(false); // No hay filas
+
+        // When
+        Optional<List<Motorcycle>> result = motorcycleDao.findByVehicleId(vehicleId);
+
+        // Then
+        assertFalse(result.isPresent());
+        verify(mockStmt).setInt(eq(1), eq(vehicleId));
+        verify(mockStmt).executeQuery();
+    }
+
+    @Test
+    public void testFindByVehicleId_WhenSQLExceptionOccurs() throws SQLException {
+        // Given
+        int vehicleId = 1;
+        when(mockConnection.prepareStatement(anyString())).thenReturn(mockStmt);
+        when(mockStmt.executeQuery()).thenThrow(new SQLException("Error de BD"));
+
+        // When
+        Optional<List<Motorcycle>> result = motorcycleDao.findByVehicleId(vehicleId);
+
+        // Then
+        assertFalse(result.isPresent());
+        verify(mockStmt).setInt(eq(1), eq(vehicleId));
+        verify(mockStmt).executeQuery();
     }
 
     // Helpers
