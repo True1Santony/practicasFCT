@@ -28,13 +28,15 @@ public class MotorcycleDaoImpl implements MotorcycleDao {
                 "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         try (PreparedStatement stmt = databaseConnection.getConnection().prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
 
-            stmt.setInt(1,motorcycle.getConcessionaireId());
-            stmt.setInt(2, motorcycle.getEngineDisplacement());
+            stmt.setObject(1,motorcycle.getConcessionaireId(), Types.INTEGER);
+            stmt.setObject(2, motorcycle.getEngineDisplacement(), Types.INTEGER);
             stmt.setString(3, motorcycle.getLicensePlate());
-            stmt.setString(4, motorcycle.getBrand());
-            stmt.setString(5, motorcycle.getModel());
-            stmt.setInt(6, motorcycle.getYear());
-            stmt.setString(7, motorcycle.getFuelType().name());
+            stmt.setObject(4, motorcycle.getBrand(), Types.VARCHAR);
+            stmt.setObject(5, motorcycle.getModel(), Types.VARCHAR);
+            stmt.setObject(6, motorcycle.getYear(), Types.INTEGER);
+            stmt.setObject(7,
+                    motorcycle.getFuelType() != null ? motorcycle.getFuelType().name() : null,
+                    motorcycle.getFuelType() != null ? Types.VARCHAR : Types.NULL);
             stmt.setInt(8, vehicleId);
 
             stmt.executeUpdate();

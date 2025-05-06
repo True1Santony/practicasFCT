@@ -33,7 +33,7 @@ public class VehicleDaoImpl implements VehicleDao{
         } else if (vehicle instanceof Motorcycle) {
             return handleInsert((Motorcycle) vehicle, "MOTORCYCLE");
         } else {
-            System.out.println("Tipo de vehículo no soportado.");
+            log.error("Tipo de vehículo no soportado.");
             return -1;
         }
     }
@@ -42,7 +42,7 @@ public class VehicleDaoImpl implements VehicleDao{
         int vehicleId;
 
         if (vehicleIdOptional.isEmpty()) {
-            System.out.println("No se encontró un vehicleId para el tipo " + vehicleType + ". Creando uno...");
+            log.info("No se encontró un vehicleId para el tipo " + vehicleType + ". Creando uno...");
             vehicleId = typeRepository.insertAndCreateType(vehicleType);
 
             if (vehicleId == -1) {

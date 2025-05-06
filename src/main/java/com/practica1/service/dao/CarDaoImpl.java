@@ -30,18 +30,19 @@ public class CarDaoImpl implements CarDao{
                 "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
         try (PreparedStatement stmt = databaseConnection.getConnection().prepareStatement(query)) {
-
-            stmt.setInt(1, car.getNumberOfDoors());
+            stmt.setObject(1, car.getNumberOfDoors(), Types.INTEGER);
             stmt.setString(2, car.getLicensePlate());
-            stmt.setString(3, car.getBrand());
-            stmt.setString(4, car.getModel());
-            stmt.setInt(5, car.getYear());
-            stmt.setString(6, car.getFuelType().name());
+            stmt.setObject(3, car.getBrand(), Types.VARCHAR);
+            stmt.setObject(4, car.getModel(), Types.VARCHAR);
+            stmt.setObject(5, car.getYear(), Types.INTEGER);
+            stmt.setObject(6,
+                    car.getFuelType() != null ? car.getFuelType().name() : null,
+                    car.getFuelType() != null ? Types.VARCHAR : Types.NULL);
             stmt.setInt(7, car.getVehicleId());
-            stmt.setInt(8, car.getConcessionaireId());
+            stmt.setObject(8, car.getConcessionaireId(), Types.INTEGER);
 
             stmt.executeUpdate();
-
+            log.info("Coche insertado correctamente.");
         } catch (SQLException e) {
             if (e.getMessage().contains("license_plate")) {
                 throw new DuplicateLicensePlateException(car.getLicensePlate());
