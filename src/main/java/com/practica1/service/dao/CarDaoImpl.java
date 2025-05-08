@@ -113,14 +113,21 @@ public class CarDaoImpl implements CarDao{
             if (resultSet.next()) {
                 Car car = new Car();
                 car.setId(resultSet.getInt("id"));
-                car.setNumberOfDoors(resultSet.getInt("number_of_doors"));
+                car.setNumberOfDoors(resultSet.getObject("number_of_doors", Integer.class));
                 car.setLicensePlate(resultSet.getString("license_plate"));
-                car.setBrand(resultSet.getString("brand"));
-                car.setModel(resultSet.getString("model"));
-                car.setYear(resultSet.getInt("year"));
-                car.setFuelType(FuelType.valueOf(resultSet.getString("fuel_type")));
-                car.setVehicleId(resultSet.getInt("vehicle_id"));
-                car.setConcessionaireId(resultSet.getInt("id_concessionaire"));
+                car.setBrand(resultSet.getObject("brand", String.class));
+                car.setModel(resultSet.getObject("model", String.class));
+                car.setYear(resultSet.getObject("year", Integer.class));
+
+                String fuelTypeStr = resultSet.getString("fuel_type");
+                if (fuelTypeStr != null) {
+                    car.setFuelType(FuelType.valueOf(fuelTypeStr));
+                } else {
+                    car.setFuelType(null);
+                }
+
+                car.setVehicleId(resultSet.getObject("vehicle_id", Integer.class));
+                car.setConcessionaireId(resultSet.getObject("id_concessionaire", Integer.class));
 
                 return Optional.of(car);
             }
@@ -141,21 +148,26 @@ public class CarDaoImpl implements CarDao{
             while (resultSet.next()) {
                 Car car = new Car();
                 car.setId(resultSet.getInt("id"));
-                car.setNumberOfDoors(resultSet.getInt("number_of_doors"));
+                car.setNumberOfDoors(resultSet.getObject("number_of_doors", Integer.class));
                 car.setLicensePlate(resultSet.getString("license_plate"));
-                car.setBrand(resultSet.getString("brand"));
-                car.setModel(resultSet.getString("model"));
-                car.setYear(resultSet.getInt("year"));
-                car.setFuelType(FuelType.valueOf(resultSet.getString("fuel_type")));
+                car.setBrand(resultSet.getObject("brand", String.class));
+                car.setModel(resultSet.getObject("model", String.class));
+                car.setYear(resultSet.getObject("year", Integer.class));
+
+                String fuelTypeStr = resultSet.getString("fuel_type");
+                if (fuelTypeStr != null) {
+                    car.setFuelType(FuelType.valueOf(fuelTypeStr));
+                } else {
+                    car.setFuelType(null);
+                }
                 car.setVehicleId(resultSet.getInt("vehicle_id"));
-                car.setConcessionaireId(resultSet.getInt("id_concessionaire"));
+                car.setConcessionaireId(resultSet.getObject("id_concessionaire", Integer.class));
 
                 cars.add(car);  // Añadir el coche a la lista
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
         return cars;  // Retornar la lista con todos los coches
     }
 
@@ -195,29 +207,30 @@ public class CarDaoImpl implements CarDao{
         String query = "SELECT * FROM Car WHERE vehicle_id = ?";
 
         try (PreparedStatement stmt = databaseConnection.getConnection().prepareStatement(query)) {
-
-            stmt.setInt(1, id);  // Establecer el ID del vehículo como parámetro
+            stmt.setInt(1, id);
             ResultSet resultSet = stmt.executeQuery();
 
             while (resultSet.next()) {
                 Car car = new Car();
                 car.setId(resultSet.getInt("id"));
-                car.setNumberOfDoors(resultSet.getInt("number_of_doors"));
+                car.setNumberOfDoors(resultSet.getObject("number_of_doors", Integer.class));
                 car.setLicensePlate(resultSet.getString("license_plate"));
-                car.setBrand(resultSet.getString("brand"));
-                car.setModel(resultSet.getString("model"));
-                car.setYear(resultSet.getInt("year"));
-                car.setFuelType(FuelType.valueOf(resultSet.getString("fuel_type")));
-                car.setVehicleId(resultSet.getInt("vehicle_id"));
-                car.setConcessionaireId(resultSet.getInt("id_concessionaire"));
+                car.setBrand(resultSet.getObject("brand", String.class));
+                car.setModel(resultSet.getObject("model", String.class));
+                car.setYear(resultSet.getObject("year", Integer.class));
 
-                cars.add(car);  // Añadir el coche a la lista
+                String fuelTypeStr = resultSet.getString("fuel_type");
+                car.setFuelType(fuelTypeStr != null ? FuelType.valueOf(fuelTypeStr) : null);
+
+                car.setVehicleId(resultSet.getInt("vehicle_id"));
+                car.setConcessionaireId(resultSet.getObject("id_concessionaire", Integer.class));
+
+                cars.add(car);
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
-        // Devolver la lista encapsulada en un Optional
         return Optional.ofNullable(cars.isEmpty() ? null : cars);
     }
 

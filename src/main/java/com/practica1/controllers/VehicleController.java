@@ -2,20 +2,18 @@ package com.practica1.controllers;
 
 import com.practica1.model.Vehicle;
 import com.practica1.service.dao.VehicleDao;
+import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@AllArgsConstructor
 @RestController
 @RequestMapping("/api/vehicles")
 public class VehicleController {
 
     private final VehicleDao vehicleDaoSerice;
-
-    public VehicleController(VehicleDao vehicleDaoService){
-        this.vehicleDaoSerice = vehicleDaoService;
-    }
 
     @GetMapping()
     public List<Vehicle> getAllVehicles(){
