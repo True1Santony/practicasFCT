@@ -119,20 +119,6 @@ public class CarDaoImplTest {
     }
 
     @Test
-    public void testFindByConcessionaireId_ReturnsList() throws Exception {
-        when(mockConnection.prepareStatement(anyString())).thenReturn(mockStmt);
-        when(mockStmt.executeQuery()).thenReturn(mockRs);
-
-        when(mockRs.next()).thenReturn(true, false);
-        mockResultSetWithCar(mockRs);
-
-        List<Car> cars = carDao.findByConcessionaireId(1);
-
-        assertEquals(1, cars.size());
-        assertEquals(1, cars.get(0).getConcessionaireId());
-    }
-
-    @Test
     public void testFindByVehicleId_WhenCarsExist() throws SQLException {
         when(mockConnection.prepareStatement(anyString())).thenReturn(mockStmt);
         when(mockStmt.executeQuery()).thenReturn(mockRs);
@@ -147,7 +133,7 @@ public class CarDaoImplTest {
         assertTrue(result.isPresent());
         assertEquals(1, result.get().size());
 
-        Car car = result.get().get(0);
+        Car car = result.get().getFirst();
         assertEquals(10, car.getId());
         assertEquals(4, car.getNumberOfDoors());
         assertEquals("XYZ123", car.getLicensePlate());
@@ -208,14 +194,14 @@ public class CarDaoImplTest {
 
     private void mockResultSetWithCar(ResultSet rs) throws SQLException {
         when(rs.getInt("id")).thenReturn(10);
-        when(rs.getInt("number_of_doors")).thenReturn(4);
+        when(rs.getObject("number_of_doors", Integer.class)).thenReturn(4);
         when(rs.getString("license_plate")).thenReturn("XYZ123");
-        when(rs.getString("brand")).thenReturn("Toyota");
-        when(rs.getString("model")).thenReturn("Corolla");
-        when(rs.getInt("year")).thenReturn(2020);
+        when(rs.getObject("brand", String.class)).thenReturn("Toyota");
+        when(rs.getObject("model", String.class)).thenReturn("Corolla");
+        when(rs.getObject("year", Integer.class)).thenReturn(2020);
         when(rs.getString("fuel_type")).thenReturn("GASOLINE");
         when(rs.getInt("vehicle_id")).thenReturn(1);
-        when(rs.getInt("id_concessionaire")).thenReturn(1);
+        when(rs.getObject("id_concessionaire", Integer.class)).thenReturn(1);
     }
 
 }

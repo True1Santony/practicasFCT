@@ -171,35 +171,6 @@ public class CarDaoImpl implements CarDao{
         return cars;  // Retornar la lista con todos los coches
     }
 
-    public List<Car> findByConcessionaireId(int concessionaireId) {
-        List<Car> cars = new ArrayList<>();
-        String query = "SELECT * FROM Car WHERE id_concessionaire = ?";
-
-        try (PreparedStatement stmt = databaseConnection.getConnection().prepareStatement(query)) {
-
-            stmt.setInt(1, concessionaireId);  // Establecer el id del concesionario como parámetro
-            ResultSet resultSet = stmt.executeQuery();
-
-            while (resultSet.next()) {
-                Car car = new Car();
-                car.setId(resultSet.getInt("id"));
-                car.setNumberOfDoors(resultSet.getInt("number_of_doors"));
-                car.setLicensePlate(resultSet.getString("license_plate"));
-                car.setBrand(resultSet.getString("brand"));
-                car.setModel(resultSet.getString("model"));
-                car.setYear(resultSet.getInt("year"));
-                car.setFuelType(FuelType.valueOf(resultSet.getString("fuel_type")));
-                car.setVehicleId(resultSet.getInt("vehicle_id"));
-                car.setConcessionaireId(resultSet.getInt("id_concessionaire"));
-
-                cars.add(car);  // Añadir el coche a la lista
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return cars;  // Retornar la lista con los coches del concesionario
-    }
 
     @Override
     public Optional<List<Car>> findByVehicleId(int id) {

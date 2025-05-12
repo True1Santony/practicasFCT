@@ -1,0 +1,316 @@
+{
+  "info": {
+    "name": "Banco de Pruebas Vehicles",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "GET all vehicles",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "http://localhost:8080/api/vehicles",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "vehicles"
+          ]
+        }
+      }
+    },
+    {
+      "name": "GET vehicle ID = 1",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "http://localhost:8080/api/vehicles/1",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "vehicles",
+            "1"
+          ]
+        }
+      }
+    },
+    {
+      "name": "GET vehicle ID = a",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "http://localhost:8080/api/vehicles/a",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "vehicles",
+            "a"
+          ]
+        }
+      }
+    },
+    {
+      "name": "POST vehicle filter",
+      "request": {
+        "method": "POST",
+        "url": {
+          "raw": "http://localhost:8080/api/vehicles/filter",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "vehicles",
+            "filter"
+          ]
+        },
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"type\": \"car\",\n  \"brand\": \"Honda\",\n  \"model\": \"Civic\",\n  \"year\": 2005,\n  \"fuelType\": \"DIESEL\",\n  \"licensePlate\": \"5705GPA\",\n  \"vehicleId\": 1,\n  \"concessionaireId\": 2,\n  \"numberOfDoors\": 5\n}"
+        }
+      }
+    },
+    {
+      "name": "POST filter missing type",
+      "request": {
+        "method": "POST",
+        "url": {
+          "raw": "http://localhost:8080/api/vehicles/filter",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "vehicles",
+            "filter"
+          ]
+        },
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"brand\": \"Honda\"\n}"
+        }
+      }
+    },
+    {
+      "name": "POST insert motorcycle",
+      "request": {
+        "method": "POST",
+        "url": {
+          "raw": "http://localhost:8080/api/vehicles/insert",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "vehicles",
+            "insert"
+          ]
+        },
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"type\": \"motorcycle\",\n  \"id\": 6,\n  \"brand\": \"SEAT\",\n  \"model\": \"MO-MO\",\n  \"year\": 2020,\n  \"fuelType\": \"GASOLINE\",\n  \"licensePlate\": \"1234ABC\",\n  \"vehicleId\": 2,\n  \"concessionaireId\": 0,\n  \"engineDisplacement\": 125\n}"
+        }
+      }
+    },
+    {
+      "name": "PUT update motorcycle",
+      "request": {
+        "method": "PUT",
+        "url": {
+          "raw": "http://localhost:8080/api/vehicles/update/1234ABC",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "vehicles",
+            "update",
+            "1234ABC"
+          ]
+        },
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"type\": \"motorcycle\",\n  \"id\": 6,\n  \"brand\": \"SEAT\",\n  \"model\": \"MO-Updated\",\n  \"year\": 2021,\n  \"fuelType\": \"GASOLINE\",\n  \"licensePlate\": \"1234ABC\",\n  \"vehicleId\": 2,\n  \"concessionaireId\": 0,\n  \"engineDisplacement\": 125\n}"
+        }
+      }
+    },
+    {
+      "name": "DELETE vehicle 1234ABC",
+      "request": {
+        "method": "DELETE",
+        "url": {
+          "raw": "http://localhost:8080/api/vehicles/delete/1234ABC",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "vehicles",
+            "delete",
+            "1234ABC"
+          ]
+        }
+      }
+    },
+    {
+      "name": "DELETE vehicle not found",
+      "request": {
+        "method": "DELETE",
+        "url": {
+          "raw": "http://localhost:8080/api/vehicles/delete/ZZZZZZZ",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "vehicles",
+            "delete",
+            "ZZZZZZZ"
+          ]
+        }
+      }
+    },
+    {
+      "name": "CRUD - Insert Tesla",
+      "request": {
+        "method": "POST",
+        "url": {
+          "raw": "http://localhost:8080/api/vehicles/insert",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "vehicles",
+            "insert"
+          ]
+        },
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"type\": \"car\",\n  \"id\": 100,\n  \"brand\": \"Tesla\",\n  \"model\": \"Model Y\",\n  \"year\": 2022,\n  \"fuelType\": \"ELECTRIC\",\n  \"licensePlate\": \"TES123\",\n  \"vehicleId\": 3,\n  \"concessionaireId\": 1,\n  \"numberOfDoors\": 5\n}"
+        }
+      }
+    },
+    {
+      "name": "CRUD - Filter Tesla",
+      "request": {
+        "method": "POST",
+        "url": {
+          "raw": "http://localhost:8080/api/vehicles/filter",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "vehicles",
+            "filter"
+          ]
+        },
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"licensePlate\": \"TES123\"\n}"
+        }
+      }
+    },
+    {
+      "name": "CRUD - Update Tesla",
+      "request": {
+        "method": "PUT",
+        "url": {
+          "raw": "http://localhost:8080/api/vehicles/update/TES123",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "vehicles",
+            "update",
+            "TES123"
+          ]
+        },
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"type\": \"car\",\n  \"id\": 100,\n  \"brand\": \"Tesla\",\n  \"model\": \"Model Y Performance\",\n  \"year\": 2023,\n  \"fuelType\": \"ELECTRIC\",\n  \"licensePlate\": \"TES123\",\n  \"vehicleId\": 3,\n  \"concessionaireId\": 1,\n  \"numberOfDoors\": 5\n}"
+        }
+      }
+    },
+    {
+      "name": "CRUD - Delete Tesla",
+      "request": {
+        "method": "DELETE",
+        "url": {
+          "raw": "http://localhost:8080/api/vehicles/delete/TES123",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "vehicles",
+            "delete",
+            "TES123"
+          ]
+        }
+      }
+    }
+  ]
+}
